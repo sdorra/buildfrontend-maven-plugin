@@ -22,6 +22,8 @@
  * SOFTWARE.
  */
 
+
+
 package com.github.sdorra.buildfrontend;
 
 //~--- non-JDK imports --------------------------------------------------------
@@ -57,22 +59,22 @@ public class GulpMojo extends AbstractNodeMojo
    * Method description
    *
    *
-   * @param gulpVersion
+   * @param tasks
    */
-  public void setGulpVersion(String gulpVersion)
+  public void setGulpTasks(String[] tasks)
   {
-    this.gulpVersion = gulpVersion;
+    this.gulpTasks = tasks;
   }
 
   /**
    * Method description
    *
    *
-   * @param tasks
+   * @param gulpVersion
    */
-  public void setTasks(String[] tasks)
+  public void setGulpVersion(String gulpVersion)
   {
-    this.tasks = tasks;
+    this.gulpVersion = gulpVersion;
   }
 
   //~--- methods --------------------------------------------------------------
@@ -93,9 +95,9 @@ public class GulpMojo extends AbstractNodeMojo
 
     CommandExecutor ce = executor.cmd(GULP);
 
-    if (tasks != null)
+    if (gulpTasks != null)
     {
-      ce.args(tasks);
+      ce.args(gulpTasks);
     }
 
     ce.execute();
@@ -104,10 +106,10 @@ public class GulpMojo extends AbstractNodeMojo
   //~--- fields ---------------------------------------------------------------
 
   /** Field description */
-  @Parameter
-  private String gulpVersion = VERSION;
+  @Parameter(required = false)
+  private String[] gulpTasks;
 
   /** Field description */
-  @Parameter(required = false)
-  private String[] tasks;
+  @Parameter
+  private String gulpVersion = VERSION;
 }

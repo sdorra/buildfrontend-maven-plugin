@@ -23,6 +23,7 @@
  */
 
 
+
 package com.github.sdorra.buildfrontend;
 
 //~--- non-JDK imports --------------------------------------------------------
@@ -75,22 +76,22 @@ public class GruntMojo extends AbstractNodeMojo
    * Method description
    *
    *
-   * @param gruntVersion
+   * @param gruntTasks
    */
-  public void setGruntVersion(String gruntVersion)
+  public void setGruntTasks(String[] gruntTasks)
   {
-    this.gruntVersion = gruntVersion;
+    this.gruntTasks = gruntTasks;
   }
 
   /**
    * Method description
    *
    *
-   * @param tasks
+   * @param gruntVersion
    */
-  public void setTasks(String[] tasks)
+  public void setGruntVersion(String gruntVersion)
   {
-    this.tasks = tasks;
+    this.gruntVersion = gruntVersion;
   }
 
   //~--- methods --------------------------------------------------------------
@@ -112,9 +113,9 @@ public class GruntMojo extends AbstractNodeMojo
 
     CommandExecutor ce = executor.cmd(GRUNT);
 
-    if (tasks != null)
+    if (gruntTasks != null)
     {
-      ce.args(tasks);
+      ce.args(gruntTasks);
     }
 
     ce.execute();
@@ -123,14 +124,14 @@ public class GruntMojo extends AbstractNodeMojo
   //~--- fields ---------------------------------------------------------------
 
   /** Field description */
+  @Parameter(required = false)
+  private String[] gruntTasks;
+
+  /** Field description */
   @Parameter
   private String gruntVersion = VERSION_GRUNT;
 
   /** Field description */
   @Parameter
   private String gruntCliVersion = VERSION_GRUNT_CLI;
-
-  /** Field description */
-  @Parameter(required = false)
-  private String[] tasks;
 }
