@@ -35,7 +35,7 @@
 
   <issueManagement>
     <system>github</system>
-    <url>https://github.com/eirslett/frontend-maven-plugin/issues</url>
+    <url>https://github.com/sdorra/buildfrontend-maven-plugin/issues</url>
   </issueManagement>
     
   <dependencies>
