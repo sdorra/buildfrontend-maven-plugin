@@ -23,6 +23,7 @@
  */
 
 
+
 package com.github.sdorra.buildfrontend;
 
 //~--- non-JDK imports --------------------------------------------------------
@@ -107,25 +108,6 @@ public final class NodeExecutor
    * Method description
    *
    *
-   * @param args
-   * @return
-   */
-  public CommandExecutor npmCmd(String... args)
-  {
-    CommandExecutor executor = new CommandExecutor(workDirectory, node, npmCli);
-
-    if (args != null)
-    {
-      executor.args(args);
-    }
-
-    return executor;
-  }
-
-  /**
-   * Method description
-   *
-   *
    * @param module
    * @param version
    *
@@ -146,7 +128,8 @@ public final class NodeExecutor
         logger.info("uninstall version {} of {}", installedVersion, module);
         npmCmd("uninstall", module).execute();
         logger.info("install version {} of {}", version, module);
-        npmCmd("install", module.concat("@").concat(version)).execute();
+        npmCmd("install", "--save-dev",
+          module.concat("@").concat(version)).execute();
       }
       else
       {
@@ -156,9 +139,29 @@ public final class NodeExecutor
     else
     {
       logger.info("install version {} of {}", version, module);
-      npmCmd("install", module.concat("@").concat(version)).execute();
+      npmCmd("install", "--save-dev",
+        module.concat("@").concat(version)).execute();
     }
 
+  }
+
+  /**
+   * Method description
+   *
+   *
+   * @param args
+   * @return
+   */
+  public CommandExecutor npmCmd(String... args)
+  {
+    CommandExecutor executor = new CommandExecutor(workDirectory, node, npmCli);
+
+    if (args != null)
+    {
+      executor.args(args);
+    }
+
+    return executor;
   }
 
   /**
