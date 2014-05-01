@@ -7,6 +7,9 @@
   <artifactId>buildfrontend-maven-plugin</artifactId>
   <version>1.0.0-SNAPSHOT</version>
   <packaging>maven-plugin</packaging>
+  <description>
+    Installs and run node, npm, bower, grunt, gulp and karma as part of your maven build.
+  </description>
   
   <url>https://github.com/sdorra/buildfrontend-maven-plugin</url>
   
