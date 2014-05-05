@@ -23,6 +23,7 @@
  */
 
 
+
 package com.github.sdorra.buildfrontend;
 
 //~--- non-JDK imports --------------------------------------------------------
@@ -164,6 +165,17 @@ public abstract class AbstractNodeMojo extends AbstractMojo
    * Method description
    *
    *
+   * @param archiverManager
+   */
+  public void setArchiverManager(ArchiverManager archiverManager)
+  {
+    this.archiverManager = archiverManager;
+  }
+
+  /**
+   * Method description
+   *
+   *
    * @param buildDirectory
    */
   public void setBuildDirectory(String buildDirectory)
@@ -175,11 +187,44 @@ public abstract class AbstractNodeMojo extends AbstractMojo
    * Method description
    *
    *
+   * @param installer
+   */
+  public void setInstaller(ArtifactInstaller installer)
+  {
+    this.installer = installer;
+  }
+
+  /**
+   * Method description
+   *
+   *
+   * @param nodeVersion
+   */
+  public void setNodeVersion(String nodeVersion)
+  {
+    this.nodeVersion = nodeVersion;
+  }
+
+  /**
+   * Method description
+   *
+   *
    * @param npmVersion
    */
   public void setNpmVersion(String npmVersion)
   {
     this.npmVersion = npmVersion;
+  }
+
+  /**
+   * Method description
+   *
+   *
+   * @param repositorySystem
+   */
+  public void setRepositorySystem(RepositorySystem repositorySystem)
+  {
+    this.repositorySystem = repositorySystem;
   }
 
   /**
