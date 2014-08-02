@@ -10,7 +10,6 @@
   <description>
     Installs and run node, npm, bower, grunt, gulp and karma as part of your maven build.
   </description>
-  
   <url>https://github.com/sdorra/buildfrontend-maven-plugin</url>
   
   <licenses>
@@ -31,9 +30,9 @@
   </developers>
 
   <scm>
-    <connection>scm:git:https://github.com/sdorra/buildfrontend-maven-plugin</connection>
+    <connection>scm:git:git@github.com:sdorra/buildfrontend-maven-plugin</connection>
     <developerConnection>scm:git:git@github.com:sdorra/buildfrontend-maven-plugin.git</developerConnection>
-    <url>https://github.com/sdorra/buildfrontend-maven-plugin</url>
+    <url>git@github.com:sdorra/nativepkg-maven-plugin</url>
     <tag>HEAD</tag>
   </scm>
 
@@ -41,6 +40,10 @@
     <system>github</system>
     <url>https://github.com/sdorra/buildfrontend-maven-plugin/issues</url>
   </issueManagement>
+  
+  <prerequisites>
+    <maven>3.0.0</maven>
+  </prerequisites>
     
   <dependencies>
     
@@ -186,12 +189,28 @@
             <link>http://www.slf4j.org/api/</link>
           </links>
         </configuration>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-source-plugin</artifactId>
         <version>2.2.1</version>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <goals>
+              <goal>jar-no-fork</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
 
       <plugin>
@@ -215,38 +234,127 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-release-plugin</artifactId>
-        <version>2.4.2</version>
+        <version>2.5</version>
         <configuration>
-          <pushChanges>false</pushChanges>
-          <localCheckout>true</localCheckout>
+          <autoVersionSubmodules>true</autoVersionSubmodules>
+          <useReleaseProfile>false</useReleaseProfile>
+          <releaseProfiles>release</releaseProfiles>
+          <goals>deploy</goals>
           <tagNameFormat>@{project.version}</tagNameFormat>
         </configuration>
-        <dependencies>
-          <dependency>
-            <groupId>org.apache.maven.scm</groupId>
-            <artifactId>maven-scm-provider-gitexe</artifactId>
-            <version>1.8.1</version>
-          </dependency>
-        </dependencies>
+      </plugin>
+      
+      <!--
+         fix maven troubleshooting part on
+         https://bitbucket.org/sdorra/scm-manager/wiki/configure-eclipse
+      -->
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-eclipse-plugin</artifactId>
+        <version>2.6</version>
+      </plugin>
+      
+      <!--
+        Nexus staging plugin
+        http://central.sonatype.org/pages/apache-maven.html
+      -->
+      
+      <plugin>
+        <groupId>org.sonatype.plugins</groupId>
+        <artifactId>nexus-staging-maven-plugin</artifactId>
+        <version>1.6.2</version>
+        <extensions>true</extensions>
+        <configuration>
+          <serverId>ossrh</serverId>
+          <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+          <autoReleaseAfterClose>true</autoReleaseAfterClose>
+        </configuration>
+      </plugin>
+      
+      <!--
+        GPG singature
+        http://central.sonatype.org/pages/apache-maven.html
+      -->
+      
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-gpg-plugin</artifactId>
+        <version>1.5</version>
+        <executions>
+          <execution>
+            <id>sign-artifacts</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>sign</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- reporting -->
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-site-plugin</artifactId>
+        <version>3.2</version>
+        <configuration>
+          <reportPlugins>
+
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-project-info-reports-plugin</artifactId>
+              <version>2.4</version>
+            </plugin>
+
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-jxr-plugin</artifactId>
+              <version>2.3</version>
+            </plugin>
+
+            <plugin>
+              <groupId>org.codehaus.mojo</groupId>
+              <artifactId>findbugs-maven-plugin</artifactId>
+              <version>2.4.0</version>
+            </plugin>
+
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-surefire-report-plugin</artifactId>
+              <version>2.12</version>
+            </plugin>
+
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-pmd-plugin</artifactId>
+              <version>2.7.1</version>
+              <configuration>
+                <linkXref>true</linkXref>
+                <sourceEncoding>${project.build.sourceEncoding}</sourceEncoding>
+                <targetJdk>${project.build.javaLevel}</targetJdk>
+              </configuration>
+            </plugin>
+
+          </reportPlugins>
+        </configuration>
       </plugin>
       
     </plugins>
   </build>
   
   <distributionManagement>
-
+    
     <repository>
-      <id>maven.scm-manager.org</id>
-      <name>scm-manager release repository</name>
-      <url>http://maven.scm-manager.org/nexus/content/repositories/releases</url>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
     </repository>
-
+    
     <snapshotRepository>
-      <id>maven.scm-manager.org</id>
-      <name>scm-manager snapshot repository</name>
-      <url>http://maven.scm-manager.org/nexus/content/repositories/snapshots</url>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
     </snapshotRepository>
-
+    
   </distributionManagement>
     
   <properties>
