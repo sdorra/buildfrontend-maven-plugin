@@ -10,52 +10,36 @@ A demo project can be found [here](https://github.com/sdorra/buildfrontend-maven
 ### Usage
 
 ```xml
-  <build>
-    <plugins>
-      
-      <plugin>
-        <groupId>com.github.sdorra</groupId>
-        <artifactId>buildfrontend-maven-plugin</artifactId>
-        <version>1.0.1</version>
-        <configuration>
-          <karmaConfig>test/conf/karma.conf</karmaConfig>
-        </configuration>
-        <executions>
-          <execution>
-            <id>gulp</id>
-            <phase>process-resources</phase>
-            <goals>
-              <goal>npm-install</goal>
-              <goal>bower-install</goal>
-              <goal>gulp</goal>
-            </goals>
-          </execution>
-          <execution>
-            <id>karma</id>
-            <phase>test</phase>
-            <goals>
-              <goal>karma</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      
-    </plugins>
-  </build>
-
-  <pluginRepositories>
-
-    <pluginRepository>
-      <id>maven.scm-manager.org</id>
-      <name>scm-manager release repository</name>
-      <url>http://maven.scm-manager.org/nexus/content/groups/public</url>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-      <releases>
-        <updatePolicy>never</updatePolicy>
-      </releases>
-    </pluginRepository>
-
-  </pluginRepositories>
+<build>
+  <plugins>
+    
+    <plugin>
+      <groupId>com.github.sdorra</groupId>
+      <artifactId>buildfrontend-maven-plugin</artifactId>
+      <version>1.0.2</version>
+      <configuration>
+        <karmaConfig>test/conf/karma.conf</karmaConfig>
+      </configuration>
+      <executions>
+        <execution>
+          <id>gulp</id>
+          <phase>process-resources</phase>
+          <goals>
+            <goal>npm-install</goal>
+            <goal>bower-install</goal>
+            <goal>gulp</goal>
+          </goals>
+        </execution>
+        <execution>
+          <id>karma</id>
+          <phase>test</phase>
+          <goals>
+            <goal>karma</goal>
+          </goals>
+        </execution>
+      </executions>
+    </plugin>
+    
+  </plugins>
+</build>
 ```
