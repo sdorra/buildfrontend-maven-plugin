@@ -1,0 +1,86 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Buildfrontend-maven-plugin by sdorra</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Buildfrontend-maven-plugin</h1>
+        <p>Installs and run node, npm, bower, grunt, gulp and karma as part of your maven build.</p>
+
+        <p class="view"><a href="https://github.com/sdorra/buildfrontend-maven-plugin">View the Project on GitHub <small>sdorra/buildfrontend-maven-plugin</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/sdorra/buildfrontend-maven-plugin/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/sdorra/buildfrontend-maven-plugin/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/sdorra/buildfrontend-maven-plugin">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a name="buildfrontend-maven-plugin" class="anchor" href="#buildfrontend-maven-plugin"><span class="octicon octicon-link"></span></a>buildfrontend-maven-plugin</h1>
+
+<p>Installs and run <a href="http://nodejs.org/">node</a>, <a href="https://www.npmjs.org">npm</a>, <a href="http://bower.io/">bower</a>, <a href="http://gruntjs.com/">grunt</a>, <a href="http://gulpjs.com/">gulp</a> and <a href="http://karma-runner.github.io/">karma</a> as part of your <a href="http://maven.apache.org/">maven</a> build.</p>
+
+<h3>
+<a name="demo" class="anchor" href="#demo"><span class="octicon octicon-link"></span></a>Demo</h3>
+
+<p>A demo project can be found <a href="https://github.com/sdorra/buildfrontend-maven-plugin-demo">here</a>.</p>
+
+<h3>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h3>
+
+<div class="highlight highlight-xml"><pre><span class="nt">&lt;build&gt;</span>
+  <span class="nt">&lt;plugins&gt;</span>
+
+    <span class="nt">&lt;plugin&gt;</span>
+      <span class="nt">&lt;groupId&gt;</span>com.github.sdorra<span class="nt">&lt;/groupId&gt;</span>
+      <span class="nt">&lt;artifactId&gt;</span>buildfrontend-maven-plugin<span class="nt">&lt;/artifactId&gt;</span>
+      <span class="nt">&lt;version&gt;</span>1.0.2<span class="nt">&lt;/version&gt;</span>
+      <span class="nt">&lt;configuration&gt;</span>
+        <span class="nt">&lt;karmaConfig&gt;</span>test/conf/karma.conf<span class="nt">&lt;/karmaConfig&gt;</span>
+      <span class="nt">&lt;/configuration&gt;</span>
+      <span class="nt">&lt;executions&gt;</span>
+        <span class="nt">&lt;execution&gt;</span>
+          <span class="nt">&lt;id&gt;</span>gulp<span class="nt">&lt;/id&gt;</span>
+          <span class="nt">&lt;phase&gt;</span>process-resources<span class="nt">&lt;/phase&gt;</span>
+          <span class="nt">&lt;goals&gt;</span>
+            <span class="nt">&lt;goal&gt;</span>npm-install<span class="nt">&lt;/goal&gt;</span>
+            <span class="nt">&lt;goal&gt;</span>bower-install<span class="nt">&lt;/goal&gt;</span>
+            <span class="nt">&lt;goal&gt;</span>gulp<span class="nt">&lt;/goal&gt;</span>
+          <span class="nt">&lt;/goals&gt;</span>
+        <span class="nt">&lt;/execution&gt;</span>
+        <span class="nt">&lt;execution&gt;</span>
+          <span class="nt">&lt;id&gt;</span>karma<span class="nt">&lt;/id&gt;</span>
+          <span class="nt">&lt;phase&gt;</span>test<span class="nt">&lt;/phase&gt;</span>
+          <span class="nt">&lt;goals&gt;</span>
+            <span class="nt">&lt;goal&gt;</span>karma<span class="nt">&lt;/goal&gt;</span>
+          <span class="nt">&lt;/goals&gt;</span>
+        <span class="nt">&lt;/execution&gt;</span>
+      <span class="nt">&lt;/executions&gt;</span>
+    <span class="nt">&lt;/plugin&gt;</span>
+
+  <span class="nt">&lt;/plugins&gt;</span>
+<span class="nt">&lt;/build&gt;</span>
+</pre></div>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/sdorra">sdorra</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
