@@ -88,6 +88,26 @@ public final class NodeExecutor
    *
    *
    * @param args
+   *
+   * @return
+   */
+  public CommandExecutor cmd(Collection<String> args)
+  {
+    CommandExecutor executor = new CommandExecutor(workDirectory, node);
+
+    if (args != null)
+    {
+      executor.args(args);
+    }
+
+    return executor;
+  }
+
+  /**
+   * Method description
+   *
+   *
+   * @param args
    * @return
    *
    * @throws MojoExecutionException

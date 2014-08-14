@@ -23,15 +23,22 @@
  */
 
 
+
 package com.github.sdorra.buildfrontend;
 
 //~--- non-JDK imports --------------------------------------------------------
+
+import com.google.common.collect.Lists;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
+
+//~--- JDK imports ------------------------------------------------------------
+
+import java.util.List;
 
 /**
  *
@@ -74,6 +81,17 @@ public class KarmaMojo extends AbstractNodeMojo
     this.karmaVersion = karmaVersion;
   }
 
+  /**
+   * Method description
+   *
+   *
+   * @param singleRun
+   */
+  public void setSingleRun(boolean singleRun)
+  {
+    this.singleRun = singleRun;
+  }
+
   //~--- methods --------------------------------------------------------------
 
   /**
@@ -89,7 +107,15 @@ public class KarmaMojo extends AbstractNodeMojo
     NodeExecutor executor = createNodeExecutor();
 
     executor.install(MODULE, karmaVersion);
-    executor.cmd(KARMA, "start", karmaConfig).execute();
+
+    List<String> cmd = Lists.newArrayList(KARMA, "start", karmaConfig);
+
+    if (singleRun)
+    {
+      cmd.add("--single-run");
+    }
+
+    executor.cmd(cmd).execute();
   }
 
   //~--- fields ---------------------------------------------------------------
@@ -97,6 +123,10 @@ public class KarmaMojo extends AbstractNodeMojo
   /** Field description */
   @Parameter(required = true)
   private String karmaConfig;
+
+  /** Field description */
+  @Parameter
+  private boolean singleRun = true;
 
   /** Field description */
   @Parameter
