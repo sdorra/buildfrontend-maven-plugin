@@ -348,6 +348,17 @@ public final class NodeExecutor
      *
      * @return
      */
+    public ProcessExecutor process()
+    {
+      return createProcessExecutor().redirectOutput(System.out);
+    }
+
+    /**
+     * Method description
+     *
+     *
+     * @return
+     */
     private ProcessExecutor createProcessExecutor()
     {
       //J-
