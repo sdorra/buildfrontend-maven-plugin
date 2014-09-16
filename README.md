@@ -1,7 +1,12 @@
 buildfrontend-maven-plugin
 ==========================
 
-Installs and run [node](http://nodejs.org/), [npm](https://www.npmjs.org), [bower](http://bower.io/), [grunt](http://gruntjs.com/), [gulp](http://gulpjs.com/) and [karma](http://karma-runner.github.io/) as part of your [maven](http://maven.apache.org/) build.
+Installs and run [node](http://nodejs.org/), [npm](https://www.npmjs.org), [bower](http://bower.io/), [grunt](http://gruntjs.com/), [gulp](http://gulpjs.com/) and [karma](http://karma-runner.github.io/) as part of your [maven](http://maven.apache.org/) build. The buildfrontend-maven-plugin will do the following steps for you:
+
+* download the specified tools
+* installs them to your local maven repository
+* extract the archives from the local maven repository
+* invoke the tools with the configured parameters
 
 ### Demo
 
