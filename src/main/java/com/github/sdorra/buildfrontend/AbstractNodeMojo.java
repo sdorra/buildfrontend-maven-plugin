@@ -622,6 +622,7 @@ public abstract class AbstractNodeMojo extends AbstractMojo
   private ArtifactInstaller installer;
 
   /** Field description */
+  @Parameter
   private String npmVersion = VERSION_NPM;
 
   /** Field description */
