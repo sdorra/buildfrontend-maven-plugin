@@ -452,9 +452,10 @@ public abstract class AbstractNodeMojo extends AbstractMojo
 
         if (platform.isNodeUnpacked())
         {
-          logger.info("copy node to {}", nodeDirectory);
-          Files.copy(nodeArtifact,
-            new File(nodeDirectory, nodeArtifact.getName()));
+          String name = getNodeName(platform, nodeArtifact);
+          File nodeFile = new File(nodeDirectory, name);
+          logger.info("copy node to {}", nodeFile);
+          Files.copy(nodeArtifact, nodeFile);
         }
         else
         {
@@ -473,6 +474,28 @@ public abstract class AbstractNodeMojo extends AbstractMojo
     return nodeDirectory;
   }
 
+  private static final String NODE_WINDOWS_X86 = "node_x86.exe";
+  
+  private static final String NODE_WINDOWS_X64 = "node_x64.exe";
+  
+  private String getNodeName(Platform platform, File nodeArtifact)
+  {
+    String name;
+    if (platform == Platform.WINDOWS_X86 )
+    {
+      name = NODE_WINDOWS_X86;
+    } 
+    else if (platform == Platform.WINDOWS_X64)
+    {
+      name = NODE_WINDOWS_X64;
+    }
+    else
+    {
+      name = nodeArtifact.getName();
+    }
+    return name;
+  }
+  
   /**
    * Method description
    *
