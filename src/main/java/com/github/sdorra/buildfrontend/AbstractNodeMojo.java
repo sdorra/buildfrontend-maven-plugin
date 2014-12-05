@@ -89,7 +89,7 @@ public abstract class AbstractNodeMojo extends AbstractMojo
     "http://nodejs.org/dist/npm/npm-%s.zip";
 
   /** Field description */
-  private static final String VERSION_NODE = "v0.10.26";
+  private static final String VERSION_NODE = "v0.10.33";
 
   /** Field description */
   private static final String VERSION_NPM = "1.4.7";
