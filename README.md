@@ -21,7 +21,7 @@ A demo project can be found [here](https://github.com/sdorra/buildfrontend-maven
     <plugin>
       <groupId>com.github.sdorra</groupId>
       <artifactId>buildfrontend-maven-plugin</artifactId>
-      <version>1.0.2</version>
+      <version>1.0.5</version>
       <configuration>
         <karmaConfig>test/conf/karma.conf</karmaConfig>
       </configuration>
