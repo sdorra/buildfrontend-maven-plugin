@@ -23,6 +23,7 @@
  */
 
 
+
 package com.github.sdorra.buildfrontend;
 
 //~--- non-JDK imports --------------------------------------------------------
@@ -44,21 +45,21 @@ public enum Platform
 
   //J-
   /** linux 32 bit */
-  LINUX_X86("node-{0}-linux-x86.tar.gz", "tar.gz", false), 
+  LINUX_X86("node-{0}-linux-x86.tar.gz", "tar.gz", false, "node"), 
   /** linux 64 bit */
-  LINUX_X64("node-{0}-linux-x64.tar.gz", "tar.gz", false), 
+  LINUX_X64("node-{0}-linux-x64.tar.gz", "tar.gz", false, "node"), 
   /** macos 32 bit */
-  MACOS_X86("node-{0}-darwin-x86.tar.gz", "tar.gz", false), 
+  MACOS_X86("node-{0}-darwin-x86.tar.gz", "tar.gz", false, "node"), 
   /** macos 64 bit */
-  MACOS_X64("node-{0}-darwin-x64.tar.gz", "tar.gz", false), 
+  MACOS_X64("node-{0}-darwin-x64.tar.gz", "tar.gz", false, "node"), 
   /** sunos/solaris 32 bit */
-  SUNOS_X86("node-{0}-sunos-x86.tar.gz", "tar.gz", false), 
+  SUNOS_X86("node-{0}-sunos-x86.tar.gz", "tar.gz", false, "node"), 
   /** sunos/solaris 64 bit */
-  SUNOS_X64("node-{0}-sunos-x64.tar.gz", "tar.gz", false),
+  SUNOS_X64("node-{0}-sunos-x64.tar.gz", "tar.gz", false, "node"),
   /** windows 32 bit */
-  WINDOWS_X86("node.exe", "exe", true), 
+  WINDOWS_X86("node.exe", "exe", true, "node-x86.exe"), 
   /** windows 64 bit */
-  WINDOWS_X64("x64/node.exe", "exe", true);
+  WINDOWS_X64("x64/node.exe", "exe", true, "node-x64.exe");
   //J+
 
   /** Field description */
@@ -73,13 +74,15 @@ public enum Platform
    * @param nodeFilePattern
    * @param nodePackageType
    * @param nodeUnpacked
+   * @param executableName
    */
   private Platform(String nodeFilePattern, String nodePackageType,
-    boolean nodeUnpacked)
+    boolean nodeUnpacked, String executableName)
   {
     this.nodeFilePattern = nodeFilePattern;
     this.nodePackageType = nodePackageType;
     this.nodeUnpacked = nodeUnpacked;
+    this.executableName = executableName;
   }
 
   //~--- methods --------------------------------------------------------------
@@ -157,6 +160,17 @@ public enum Platform
    *
    * @return
    */
+  public String getExecutableName()
+  {
+    return executableName;
+  }
+
+  /**
+   * Method description
+   *
+   *
+   * @return
+   */
   public String getNodePackageType()
   {
     return nodePackageType;
@@ -187,6 +201,9 @@ public enum Platform
   }
 
   //~--- fields ---------------------------------------------------------------
+
+  /** Field description */
+  private final String executableName;
 
   /** Field description */
   private final String nodeFilePattern;
