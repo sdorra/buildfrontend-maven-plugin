@@ -45,7 +45,9 @@ import java.io.File;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -56,6 +58,9 @@ public final class NodeExecutor
 
   /** Field description */
   private static final String CLI_PATH = "node_modules/npm/cli.js";
+
+  /** Field description */
+  private static final String ENV_PATH = "PATH";
 
   /** Field description */
   private static final String PATH_NODE_MODULES = "node_modules";
@@ -71,15 +76,31 @@ public final class NodeExecutor
   /**
    * Constructs ...
    *
+   * @param platform
    * @param workDirectory
    * @param node
    * @param npmDirectory
    */
-  public NodeExecutor(File workDirectory, File node, File npmDirectory)
+  public NodeExecutor(Platform platform, File workDirectory, File node,
+    File npmDirectory)
   {
     this.workDirectory = workDirectory;
     this.node = node.getPath();
     this.npmCli = new File(npmDirectory, CLI_PATH).getPath();
+
+    if (platform.isNeedExecutableInPath())
+    {
+      env = new HashMap<String, String>(System.getenv());
+
+      StringBuilder path = new StringBuilder(Strings.nullToEmpty(ENV_PATH));
+
+      path.append(File.pathSeparator).append(workDirectory.getPath());
+
+      String p = path.toString();
+
+      logger.debug("use path {} for execution", p);
+      env.put(ENV_PATH, p);
+    }
   }
 
   //~--- methods --------------------------------------------------------------
@@ -94,7 +115,7 @@ public final class NodeExecutor
    */
   public CommandExecutor cmd(Collection<String> args)
   {
-    CommandExecutor executor = new CommandExecutor(workDirectory, node);
+    CommandExecutor executor = new CommandExecutor(env, workDirectory, node);
 
     if (args != null)
     {
@@ -115,7 +136,7 @@ public final class NodeExecutor
    */
   public CommandExecutor cmd(String... args) throws MojoExecutionException
   {
-    CommandExecutor executor = new CommandExecutor(workDirectory, node);
+    CommandExecutor executor = new CommandExecutor(env, workDirectory, node);
 
     if (args != null)
     {
@@ -175,7 +196,8 @@ public final class NodeExecutor
    */
   public CommandExecutor npmCmd(String... args)
   {
-    CommandExecutor executor = new CommandExecutor(workDirectory, node, npmCli);
+    CommandExecutor executor = new CommandExecutor(env, workDirectory, node,
+                                 npmCli);
 
     if (args != null)
     {
@@ -253,11 +275,15 @@ public final class NodeExecutor
      * Constructs ...
      *
      *
+     *
+     * @param environment
      * @param workDirectory
      * @param cmd
      */
-    public CommandExecutor(File workDirectory, String... cmd)
+    private CommandExecutor(Map<String, String> environment,
+      File workDirectory, String... cmd)
     {
+      this.environment = environment;
       this.workDirectory = workDirectory;
       this.command = Lists.newArrayList();
       args(cmd);
@@ -363,11 +389,18 @@ public final class NodeExecutor
     private ProcessExecutor createProcessExecutor()
     {
       //J-
-      return new ProcessExecutor(command)
+      ProcessExecutor executor = new ProcessExecutor(command)
         .directory(workDirectory)
         .redirectErrorStream(true)
         .exitValueNormal();
       //J+
+
+      if (environment != null)
+      {
+        executor = executor.environment(environment);
+      }
+
+      return executor;
     }
 
     //~--- fields -------------------------------------------------------------
@@ -377,6 +410,9 @@ public final class NodeExecutor
 
     /** Field description */
     private final File workDirectory;
+
+    /** Field description */
+    private final Map<String, String> environment;
   }
 
 
@@ -390,4 +426,7 @@ public final class NodeExecutor
 
   /** Field description */
   private final File workDirectory;
+
+  /** Field description */
+  private Map<String, String> env;
 }

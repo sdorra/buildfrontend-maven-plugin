@@ -266,7 +266,8 @@ public abstract class AbstractNodeMojo extends AbstractMojo
     File node = findNodeExecutable(platform, nodeDirectory);
     File npmDirectory = extractNpm();
 
-    return new NodeExecutor(new File(workDirectory), node, npmDirectory);
+    return new NodeExecutor(platform, new File(workDirectory), node,
+      npmDirectory);
   }
 
   /**
@@ -453,6 +454,7 @@ public abstract class AbstractNodeMojo extends AbstractMojo
         if (platform.isNodeUnpacked())
         {
           File nodeFile = new File(nodeDirectory, platform.getExecutableName());
+
           logger.info("copy node to {}", nodeFile);
           Files.copy(nodeArtifact, nodeFile);
         }
