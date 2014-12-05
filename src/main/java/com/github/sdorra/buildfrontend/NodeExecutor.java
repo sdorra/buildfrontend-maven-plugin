@@ -55,10 +55,10 @@ import java.util.Map;
  */
 public final class NodeExecutor
 {
-
+    
   /** Field description */
-  private static final String CLI_PATH = "node_modules/npm/cli.js";
-
+  private static final String[] CLI_BIN = new String[]{"node_modules/npm/cli.js", "bin/npm-cli.js"};
+  
   /** Field description */
   private static final String ENV_PATH = "PATH";
 
@@ -86,21 +86,56 @@ public final class NodeExecutor
   {
     this.workDirectory = workDirectory;
     this.node = node.getPath();
-    this.npmCli = new File(npmDirectory, CLI_PATH).getPath();
-
+    this.npmCli = findNpmCli(npmDirectory).getPath();
+    logger.debug("use npm {}", npmCli);
     if (platform.isNeedExecutableInPath())
     {
+      String key = ENV_PATH;
+      StringBuilder buffer = new StringBuilder();
+      for ( Map.Entry<String,String> e : System.getenv().entrySet() ){
+        String k = e.getKey();
+        if ( ENV_PATH.equalsIgnoreCase(k) ){
+          key = k;
+          buffer.append(Strings.nullToEmpty(e.getValue()));
+          break;
+        }
+      }
+      buffer.append(File.pathSeparator).append(node.getParent());
       env = new HashMap<String, String>(System.getenv());
-
-      StringBuilder path = new StringBuilder(Strings.nullToEmpty(ENV_PATH));
-
-      path.append(File.pathSeparator).append(workDirectory.getPath());
-
-      String p = path.toString();
-
-      logger.debug("use path {} for execution", p);
-      env.put(ENV_PATH, p);
+      String p = buffer.toString();
+      logger.debug("set {} environment {} for execution", key, p);
+      env.put(key, p);
     }
+  }
+  
+  private File findNpmCli(File npmDirectory){
+    File cli = findNpmCliBin(npmDirectory);
+    if ( cli == null ){
+      for ( File f : npmDirectory.listFiles() ){
+        if (f.isDirectory()){
+          cli = findNpmCliBin(f);
+          if ( cli != null ){
+            break;
+          }
+        }
+      }
+    }
+    if ( cli == null ){
+      throw new RuntimeException("could not find npm");
+    }
+    return cli;
+  }
+  
+  private File findNpmCliBin(File directory){
+     File cli = null;
+     for ( String bin : CLI_BIN ){
+      File f = new File(directory, bin);
+      if (f.exists()){
+        cli = f;
+        break;
+      }
+    }
+     return cli;
   }
 
   //~--- methods --------------------------------------------------------------
@@ -197,7 +232,7 @@ public final class NodeExecutor
   public CommandExecutor npmCmd(String... args)
   {
     CommandExecutor executor = new CommandExecutor(env, workDirectory, node,
-                                 npmCli);
+                                 npmCli, "--color=false", "--parseable");
 
     if (args != null)
     {
@@ -223,13 +258,22 @@ public final class NodeExecutor
 
     try
     {
-      String out = npmCmd().args("list", name).executeAndGet();
-      String vline = out.split(System.getProperty("line.separator"))[1];
-      int index = vline.indexOf("@");
+      String out = npmCmd().args("--long", "list", name).executeAndGet();
+      String vline = null;
+      logger.debug("npm cmd returned: {}", out);
+      for ( String part : out.split(":") ){
+          if (part.contains("@")){
+              vline = part;
+              break;
+          }
+      }
+      if ( vline != null ){
+        int index = vline.indexOf("@");
 
-      if (index > 0)
-      {
-        version = vline.substring(index + 1);
+        if (index > 0)
+        {
+          version = vline.substring(index + 1);
+        }
       }
     }
     catch (Exception ex)
@@ -388,6 +432,7 @@ public final class NodeExecutor
      */
     private ProcessExecutor createProcessExecutor()
     {
+      logger.debug("create process executor for {}", command);
       //J-
       ProcessExecutor executor = new ProcessExecutor(command)
         .directory(workDirectory)

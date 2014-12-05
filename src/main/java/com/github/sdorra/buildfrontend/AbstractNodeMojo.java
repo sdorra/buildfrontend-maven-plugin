@@ -86,13 +86,13 @@ public abstract class AbstractNodeMojo extends AbstractMojo
 
   /** Field description */
   private static final String URL_TEMPLATE_NPM =
-    "http://nodejs.org/dist/npm/npm-%s.zip";
+    "https://github.com/npm/npm/archive/%s.zip";
 
   /** Field description */
   private static final String VERSION_NODE = "v0.10.33";
 
   /** Field description */
-  private static final String VERSION_NPM = "1.4.12";
+  private static final String VERSION_NPM = "v2.1.11";
 
   /**
    * the logger for AbstractNodeMojo
