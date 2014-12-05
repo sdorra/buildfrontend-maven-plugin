@@ -28,6 +28,7 @@ package com.github.sdorra.buildfrontend;
 
 //~--- non-JDK imports --------------------------------------------------------
 
+import com.google.common.base.Strings;
 import com.google.common.base.Throwables;
 import com.google.common.collect.Lists;
 
@@ -140,7 +141,7 @@ public final class NodeExecutor
     {
       String installedVersion = moduleVersion(module);
 
-      if (!installedVersion.equals(version))
+      if (!Strings.nullToEmpty(installedVersion).equals(version))
       {
         logger.warn(
           "installed version {} of {} does not match required version {}",
