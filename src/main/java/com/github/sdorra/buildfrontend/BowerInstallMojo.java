@@ -48,7 +48,7 @@ public class BowerInstallMojo extends AbstractNodeMojo
   private static final String MODULE = "bower";
 
   /** Field description */
-  private static final String VERSION = "1.3.3";
+  private static final String VERSION = "1.3.12";
 
   //~--- set methods ----------------------------------------------------------
 
