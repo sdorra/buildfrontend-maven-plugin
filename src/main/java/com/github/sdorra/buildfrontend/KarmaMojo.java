@@ -39,16 +39,12 @@ import org.apache.maven.plugins.annotations.Parameter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.zeroturnaround.exec.InvalidExitValueException;
 import org.zeroturnaround.exec.ProcessResult;
 
 //~--- JDK imports ------------------------------------------------------------
 
-import java.io.IOException;
 
 import java.util.List;
-import java.util.concurrent.TimeoutException;
-import java.util.logging.Level;
 
 /**
  *
@@ -143,7 +139,7 @@ public class KarmaMojo extends AbstractNodeMojo
    * @throws MojoFailureException
    */
   @Override
-  protected void doExecute() throws MojoExecutionException, MojoFailureException
+  public void execute() throws MojoExecutionException, MojoFailureException
   {
     if (!skipTests)
     {

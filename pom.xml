@@ -43,7 +43,7 @@
   </issueManagement>
   
   <prerequisites>
-    <maven>3.0.0</maven>
+    <maven>3.1.0</maven>
   </prerequisites>
     
   <dependencies>
@@ -78,12 +78,6 @@
       <artifactId>maven-plugin-annotations</artifactId>
       <version>3.2</version>
     </dependency>
-
-    <dependency>
-      <groupId>com.googlecode.slf4j-maven-plugin-log</groupId>
-      <artifactId>slf4j-maven-plugin-log</artifactId>
-      <version>1.0.0</version>
-    </dependency>
     
     <dependency>
       <groupId>com.google.guava</groupId>
@@ -101,12 +95,6 @@
       <groupId>org.zeroturnaround</groupId>
       <artifactId>zt-exec</artifactId>
       <version>1.6</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-      <version>1.7.7</version>
     </dependency>
     
   </dependencies>

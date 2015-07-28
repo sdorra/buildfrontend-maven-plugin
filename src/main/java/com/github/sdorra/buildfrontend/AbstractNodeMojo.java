@@ -38,7 +38,6 @@ import org.apache.maven.artifact.installer.ArtifactInstaller;
 import org.apache.maven.artifact.repository.ArtifactRepository;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.repository.RepositorySystem;
@@ -49,7 +48,6 @@ import org.codehaus.plexus.archiver.manager.NoSuchArchiverException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.slf4j.impl.StaticLoggerBinder;
 
 //~--- JDK imports ------------------------------------------------------------
 
@@ -133,31 +131,6 @@ public abstract class AbstractNodeMojo extends AbstractMojo
       closer.close();
     }
   }
-
-  /**
-   * Method description
-   *
-   *
-   * @throws MojoExecutionException
-   * @throws MojoFailureException
-   */
-  @Override
-  public final void execute()
-    throws MojoExecutionException, MojoFailureException
-  {
-    StaticLoggerBinder.getSingleton().setLog(getLog());
-    doExecute();
-  }
-
-  /**
-   * Method description
-   *
-   *
-   * @throws MojoExecutionException
-   * @throws MojoFailureException
-   */
-  protected abstract void doExecute()
-    throws MojoExecutionException, MojoFailureException;
 
   //~--- set methods ----------------------------------------------------------
 

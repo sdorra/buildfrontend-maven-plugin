@@ -49,7 +49,7 @@ public class NpmInstallMojo extends AbstractNodeMojo
    * @throws MojoFailureException
    */
   @Override
-  protected void doExecute() throws MojoExecutionException, MojoFailureException
+  public void execute() throws MojoExecutionException, MojoFailureException
   {
     NodeExecutor executor = createNodeExecutor();
 
