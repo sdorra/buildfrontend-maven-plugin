@@ -28,6 +28,8 @@ package com.github.sdorra.buildfrontend;
 
 //~--- non-JDK imports --------------------------------------------------------
 
+import com.google.common.collect.Lists;
+import java.util.List;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
@@ -64,6 +66,17 @@ public class BowerInstallMojo extends AbstractNodeMojo
     this.bowerVersion = bowerVersion;
   }
 
+  /**
+   * Method description
+   *
+   *
+   * @param allowRoot
+   */
+  public void setAllowRoot(boolean allowRoot)
+  {
+    this.allowRoot = allowRoot;
+  }
+
   //~--- methods --------------------------------------------------------------
 
   /**
@@ -79,7 +92,13 @@ public class BowerInstallMojo extends AbstractNodeMojo
     NodeExecutor executor = createNodeExecutor();
 
     executor.install(MODULE, bowerVersion);
-    executor.cmd(BOWER, "install").execute();
+    List<String> cmd = Lists.newArrayList(BOWER);
+    if (allowRoot)
+    {
+      cmd.add("--allow-root");
+    }
+    cmd.add("install");
+    executor.cmd(cmd).execute();
   }
 
   //~--- fields ---------------------------------------------------------------
@@ -87,4 +106,7 @@ public class BowerInstallMojo extends AbstractNodeMojo
   /** Field description */
   @Parameter
   private String bowerVersion = VERSION;
+  
+  @Parameter
+  private boolean allowRoot = false;
 }
