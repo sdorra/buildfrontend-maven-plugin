@@ -45,21 +45,21 @@ public enum Platform
 
   //J-
   /** linux 32 bit */
-  LINUX_X86("node-{0}-linux-x86.tar.gz", "tar.gz", false, "node", false), 
+  LINUX_X86("node-{0}-linux-x86.tar.gz", "tar.gz", false, "node"),
   /** linux 64 bit */
-  LINUX_X64("node-{0}-linux-x64.tar.gz", "tar.gz", false, "node", false), 
+  LINUX_X64("node-{0}-linux-x64.tar.gz", "tar.gz", false, "node"),
   /** macos 32 bit */
-  MACOS_X86("node-{0}-darwin-x86.tar.gz", "tar.gz", false, "node", false), 
+  MACOS_X86("node-{0}-darwin-x86.tar.gz", "tar.gz", false, "node"),
   /** macos 64 bit */
-  MACOS_X64("node-{0}-darwin-x64.tar.gz", "tar.gz", false, "node", false), 
+  MACOS_X64("node-{0}-darwin-x64.tar.gz", "tar.gz", false, "node"),
   /** sunos/solaris 32 bit */
-  SUNOS_X86("node-{0}-sunos-x86.tar.gz", "tar.gz", false, "node", false), 
+  SUNOS_X86("node-{0}-sunos-x86.tar.gz", "tar.gz", false, "node"),
   /** sunos/solaris 64 bit */
-  SUNOS_X64("node-{0}-sunos-x64.tar.gz", "tar.gz", false, "node", false),
+  SUNOS_X64("node-{0}-sunos-x64.tar.gz", "tar.gz", false, "node"),
   /** windows 32 bit */
-  WINDOWS_X86("node.exe", "exe", true, "node.exe", true), 
+  WINDOWS_X86("node.exe", "exe", true, "node.exe"),
   /** windows 64 bit */
-  WINDOWS_X64("x64/node.exe", "exe", true, "node.exe", true);
+  WINDOWS_X64("x64/node.exe", "exe", true, "node.exe");
   //J+
 
   /** Field description */
@@ -75,16 +75,14 @@ public enum Platform
    * @param nodePackageType
    * @param nodeUnpacked
    * @param executableName
-   * @param needExecutableInPath
    */
-  private Platform(String nodeFilePattern, String nodePackageType,
-    boolean nodeUnpacked, String executableName, boolean needExecutableInPath)
+  Platform(String nodeFilePattern, String nodePackageType,
+    boolean nodeUnpacked, String executableName)
   {
     this.nodeFilePattern = nodeFilePattern;
     this.nodePackageType = nodePackageType;
     this.nodeUnpacked = nodeUnpacked;
     this.executableName = executableName;
-    this.needExecutableInPath = needExecutableInPath;
   }
 
   //~--- methods --------------------------------------------------------------
@@ -197,17 +195,6 @@ public enum Platform
    *
    * @return
    */
-  public boolean isNeedExecutableInPath()
-  {
-    return needExecutableInPath;
-  }
-
-  /**
-   * Method description
-   *
-   *
-   * @return
-   */
   public boolean isNodeUnpacked()
   {
     return nodeUnpacked;
@@ -217,9 +204,6 @@ public enum Platform
 
   /** Field description */
   private final String executableName;
-
-  /** Field description */
-  private final boolean needExecutableInPath;
 
   /** Field description */
   private final String nodeFilePattern;

@@ -90,34 +90,32 @@ public final class NodeExecutor
     this.workDirectory = workDirectory;
     this.node = node.getPath();
     this.npmCli = findNpmCli(npmDirectory).getPath();
+    this.env = createEnvironment(node);
     logger.debug("use npm {}", npmCli);
+  }
 
-    if (platform.isNeedExecutableInPath())
+  private Map<String,String> createEnvironment(File node){
+    String key = ENV_PATH;
+    StringBuilder buffer = new StringBuilder();
+    buffer.append(node.getParent());
+
+    for (Map.Entry<String, String> e : System.getenv().entrySet())
     {
-      String key = ENV_PATH;
-      StringBuilder buffer = new StringBuilder();
+      String k = e.getKey();
 
-      for (Map.Entry<String, String> e : System.getenv().entrySet())
+      if (ENV_PATH.equalsIgnoreCase(k))
       {
-        String k = e.getKey();
-
-        if (ENV_PATH.equalsIgnoreCase(k))
-        {
-          key = k;
-          buffer.append(Strings.nullToEmpty(e.getValue()));
-
-          break;
-        }
+        key = k;
+        buffer.append(File.pathSeparator).append(Strings.nullToEmpty(e.getValue()));
+        break;
       }
-
-      buffer.append(File.pathSeparator).append(node.getParent());
-      env = new HashMap<String, String>(System.getenv());
-
-      String p = buffer.toString();
-
-      logger.debug("set {} environment {} for execution", key, p);
-      env.put(key, p);
     }
+
+    env = new HashMap<String, String>(System.getenv());
+    String p = buffer.toString();
+    logger.debug("set {} environment {} for execution", key, p);
+    env.put(key, p);
+    return env;
   }
 
   //~--- methods --------------------------------------------------------------
