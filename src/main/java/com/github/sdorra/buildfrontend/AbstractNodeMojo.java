@@ -239,8 +239,7 @@ public abstract class AbstractNodeMojo extends AbstractMojo
     File node = findNodeExecutable(platform, nodeDirectory);
     File npmDirectory = extractNpm();
 
-    return new NodeExecutor(platform, new File(workDirectory), node,
-      npmDirectory);
+    return new NodeExecutor(new File(workDirectory), node, npmDirectory);
   }
 
   /**

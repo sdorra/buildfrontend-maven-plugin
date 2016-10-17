@@ -79,13 +79,11 @@ public final class NodeExecutor
   /**
    * Constructs ...
    *
-   * @param platform
    * @param workDirectory
    * @param node
    * @param npmDirectory
    */
-  public NodeExecutor(Platform platform, File workDirectory, File node,
-    File npmDirectory)
+  public NodeExecutor(File workDirectory, File node, File npmDirectory)
   {
     this.workDirectory = workDirectory;
     this.node = node.getPath();
@@ -181,12 +179,12 @@ public final class NodeExecutor
       {
         logger.warn(
           "installed version {} of {} does not match required version {}",
-          installedVersion, module, version);
+          installedVersion, module, version
+        );
         logger.info("uninstall version {} of {}", installedVersion, module);
         npmCmd("uninstall", module).execute();
         logger.info("install version {} of {}", version, module);
-        npmCmd("install", "--save-dev",
-          module.concat("@").concat(version)).execute();
+        npmCmd("install", module.concat("@").concat(version)).execute();
       }
       else
       {
@@ -196,8 +194,7 @@ public final class NodeExecutor
     else
     {
       logger.info("install version {} of {}", version, module);
-      npmCmd("install", "--save-dev",
-        module.concat("@").concat(version)).execute();
+      npmCmd("install", module.concat("@").concat(version)).execute();
     }
 
   }
