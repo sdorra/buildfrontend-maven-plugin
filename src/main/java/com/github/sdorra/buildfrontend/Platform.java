@@ -59,11 +59,11 @@ public enum Platform
   /** windows 32 bit */
   WINDOWS_X86("node.exe", "exe", true, "node.exe"),
   /** windows 64 bit */
-  WINDOWS_X64("x64/node.exe", "exe", true, "node.exe");
+  WINDOWS_X64("win-x64/node.exe", "exe", true, "node.exe");
   //J+
 
   /** Field description */
-  private static final String URL_TEMPLATE = "http://nodejs.org/dist/{0}/";
+  private static final String URL_TEMPLATE = "https://nodejs.org/dist/{0}/";
 
   //~--- constructors ---------------------------------------------------------
 
