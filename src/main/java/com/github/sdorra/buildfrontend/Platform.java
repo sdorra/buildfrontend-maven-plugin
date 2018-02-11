@@ -26,12 +26,7 @@
 
 package com.github.sdorra.buildfrontend;
 
-//~--- non-JDK imports --------------------------------------------------------
-
-import org.apache.maven.plugin.MojoExecutionException;
-
-//~--- JDK imports ------------------------------------------------------------
-
+import java.io.IOException;
 import java.text.MessageFormat;
 
 import java.util.Locale;
@@ -87,16 +82,7 @@ public enum Platform
 
   //~--- methods --------------------------------------------------------------
 
-  /**
-   * Method description
-   *
-   *
-   * @return
-   *
-   * @throws MojoExecutionException
-   */
-  public static Platform current() throws MojoExecutionException
-  {
+  public static Platform current() throws IOException {
     Platform platform;
     String os = System.getProperty("os.name").toLowerCase(Locale.ENGLISH);
 
@@ -135,7 +121,7 @@ public enum Platform
     }
     else
     {
-      throw new MojoExecutionException("Unsupported os.name: " + os);
+      throw new IOException("Unsupported os.name: " + os);
     }
 
     return platform;

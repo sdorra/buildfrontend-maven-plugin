@@ -1,18 +1,18 @@
-buildfrontend-maven-plugin
-==========================
+# buildfrontend-maven-plugin
 
-Installs and run [node](http://nodejs.org/), [npm](https://www.npmjs.org), [bower](http://bower.io/), [grunt](http://gruntjs.com/), [gulp](http://gulpjs.com/) and [karma](http://karma-runner.github.io/) as part of your [maven](http://maven.apache.org/) build. The buildfrontend-maven-plugin will do the following steps for you:
+Installs and run [node](http://nodejs.org/), [npm](https://www.npmjs.org) or [yarn](https://yarnpkg.com) as part of your 
+[maven](http://maven.apache.org/) build. The buildfrontend-maven-plugin will do the following steps for you:
 
 * download the specified tools
 * installs them to your local maven repository
 * extract the archives from the local maven repository
 * invoke the tools with the configured parameters
 
-### Demo
+## Demo
 
-A demo project can be found [here](https://github.com/sdorra/buildfrontend-maven-plugin-demo).
+A demo project can be found [here](https://github.com/sdorra/buildfrontend-maven-plugin/tree/master/src/it).
 
-### Usage
+## Usage
 
 ```xml
 <build>
@@ -21,25 +21,30 @@ A demo project can be found [here](https://github.com/sdorra/buildfrontend-maven
     <plugin>
       <groupId>com.github.sdorra</groupId>
       <artifactId>buildfrontend-maven-plugin</artifactId>
-      <version>1.0.5</version>
+      <version>2.0.0-SNAPSHOT</version>
       <configuration>
-        <karmaConfig>test/conf/karma.conf</karmaConfig>
+        <node>
+          <version>v8.9.4</version>
+        </node>
+        <pkgManager>
+          <type>YARN</type>
+          <version>v1.3.2</version>
+        </pkgManager>
+        <script>run</script>
       </configuration>
       <executions>
         <execution>
-          <id>gulp</id>
+          <id>install</id>
           <phase>process-resources</phase>
           <goals>
-            <goal>npm-install</goal>
-            <goal>bower-install</goal>
-            <goal>gulp</goal>
+            <goal>install</goal>
           </goals>
         </execution>
         <execution>
-          <id>karma</id>
-          <phase>test</phase>
+          <id>run</id>
+          <phase>process-resources</phase>
           <goals>
-            <goal>karma</goal>
+            <goal>run</goal>
           </goals>
         </execution>
       </executions>
