@@ -2,7 +2,6 @@ package com.github.sdorra.buildfrontend;
 
 import com.google.common.io.Files;
 import org.apache.maven.artifact.Artifact;
-import org.apache.maven.plugins.annotations.Parameter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,39 +31,39 @@ public class NodeFactory {
     private ArtifactDownloader artifactDownloader;
 
     public Node create(NodeConfiguration nodeConfiguration) throws IOException {
-        Platform platform = Platform.current();
+        NodePlatform nodePlatform = NodePlatform.current();
 
         String version = nodeConfiguration.getVersion();
-        Artifact artifact = createNodeArtifact(platform, version);
-        artifactDownloader.downloadIfNeeded(artifact, platform.getNodeUrl(version));
+        Artifact artifact = createNodeArtifact(nodePlatform, version);
+        artifactDownloader.downloadIfNeeded(artifact, nodePlatform.getNodeUrl(version));
 
-        File executable = extractNode(platform, artifact);
+        File executable = extractNode(nodePlatform, artifact);
         return new Node(new File(directories.getWorkingDirectory()), executable);
     }
 
-    private Artifact createNodeArtifact(Platform platform, String version) {
-        return artifactBuilder.builder(ARTIFACT_ID, version, platform.getNodePackageType())
-                .withClassifier(platform.getClassifier())
+    private Artifact createNodeArtifact(NodePlatform nodePlatform, String version) {
+        return artifactBuilder.builder(ARTIFACT_ID, version, nodePlatform.getNodePackageType())
+                .withClassifier(nodePlatform.getClassifier())
                 .build();
     }
 
-    private File extractNode(Platform platform, Artifact artifact) throws IOException {
-        if (platform.isNodeUnpacked()) {
-            File nodeFile = new File(directories.getBuildDirectory(), platform.getExecutableName());
+    private File extractNode(NodePlatform nodePlatform, Artifact artifact) throws IOException {
+        if (nodePlatform.isNodeUnpacked()) {
+            File nodeFile = new File(directories.getBuildDirectory(), nodePlatform.getExecutableName());
 
             LOG.info("copy node to {}", nodeFile);
             Files.copy(artifact.getFile(), nodeFile);
             return nodeFile;
         } else {
             File directory = artifactExtractor.extractIfNeeded(artifact);
-            return findNodeExecutable(platform, directory, artifact.getVersion());
+            return findNodeExecutable(nodePlatform, directory, artifact.getVersion());
         }
     }
 
-    private File findNodeExecutable(Platform platform, File directory, String nodeVersion) throws IOException {
+    private File findNodeExecutable(NodePlatform nodePlatform, File directory, String nodeVersion) throws IOException {
         File node = null;
 
-        if (platform.isNodeUnpacked()) {
+        if (nodePlatform.isNodeUnpacked()) {
             for (File f : directory.listFiles()) {
                 if (f.getName().startsWith("node")) {
                     node = f;

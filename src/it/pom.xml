@@ -20,14 +20,14 @@
                     <node>
                         <version>v8.9.4</version>
                     </node>
-                    <pkgManager>
+                    <!--pkgManager>
                         <type>NPM</type>
                         <version>v5.6.0</version>
-                    </pkgManager>
-                    <!--pkgManager>
+                    </pkgManager-->
+                    <pkgManager>
                         <type>YARN</type>
                         <version>v1.3.2</version>
-                    </pkgManager-->
+                    </pkgManager>
                     <script>run</script>
                 </configuration>
                 <executions>

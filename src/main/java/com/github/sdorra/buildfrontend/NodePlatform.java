@@ -35,10 +35,8 @@ import java.util.Locale;
  *
  * @author Sebastian Sdorra
  */
-public enum Platform
-{
+public enum NodePlatform {
 
-  //J-
   /** linux 32 bit */
   LINUX_X86("node-{0}-linux-x86.tar.gz", "tar.gz", false, "node"),
   /** linux 64 bit */
@@ -55,35 +53,23 @@ public enum Platform
   WINDOWS_X86("node.exe", "exe", true, "node.exe"),
   /** windows 64 bit */
   WINDOWS_X64("win-x64/node.exe", "exe", true, "node.exe");
-  //J+
 
-  /** Field description */
   private static final String URL_TEMPLATE = "https://nodejs.org/dist/{0}/";
 
-  //~--- constructors ---------------------------------------------------------
+  private final String nodeFilePattern;
+  private final String nodePackageType;
+  private final boolean nodeUnpacked;
+  private final String executableName;
 
-  /**
-   * Constructs ...
-   *
-   *
-   * @param nodeFilePattern
-   * @param nodePackageType
-   * @param nodeUnpacked
-   * @param executableName
-   */
-  Platform(String nodeFilePattern, String nodePackageType,
-    boolean nodeUnpacked, String executableName)
-  {
+  NodePlatform(String nodeFilePattern, String nodePackageType, boolean nodeUnpacked, String executableName) {
     this.nodeFilePattern = nodeFilePattern;
     this.nodePackageType = nodePackageType;
     this.nodeUnpacked = nodeUnpacked;
     this.executableName = executableName;
   }
 
-  //~--- methods --------------------------------------------------------------
-
-  public static Platform current() throws IOException {
-    Platform platform;
+  public static NodePlatform current() throws IOException {
+    NodePlatform nodePlatform;
     String os = System.getProperty("os.name").toLowerCase(Locale.ENGLISH);
 
     // TOOD: not the best way, find a better oen
@@ -97,106 +83,59 @@ public enum Platform
 
     if (os.startsWith("windows"))
     {
-      platform = x64
-        ? Platform.WINDOWS_X64
-        : Platform.WINDOWS_X86;
+      nodePlatform = x64
+        ? NodePlatform.WINDOWS_X64
+        : NodePlatform.WINDOWS_X86;
     }
     else if (os.startsWith("linux"))
     {
-      platform = x64
-        ? Platform.LINUX_X64
-        : Platform.LINUX_X86;
+      nodePlatform = x64
+        ? NodePlatform.LINUX_X64
+        : NodePlatform.LINUX_X86;
     }
     else if (os.startsWith("mac"))
     {
-      platform = x64
-        ? Platform.MACOS_X64
-        : Platform.MACOS_X86;
+      nodePlatform = x64
+        ? NodePlatform.MACOS_X64
+        : NodePlatform.MACOS_X86;
     }
     else if (os.startsWith("sunos") || os.startsWith("solaris"))
     {
-      platform = x64
-        ? Platform.SUNOS_X64
-        : Platform.SUNOS_X86;
+      nodePlatform = x64
+        ? NodePlatform.SUNOS_X64
+        : NodePlatform.SUNOS_X86;
     }
     else
     {
       throw new IOException("Unsupported os.name: " + os);
     }
 
-    return platform;
+    return nodePlatform;
   }
 
-  //~--- get methods ----------------------------------------------------------
-
-  /**
-   * Method description
-   *
-   *
-   * @return
-   */
   public String getClassifier()
   {
     return name().toLowerCase(Locale.ENGLISH);
   }
 
-  /**
-   * Method description
-   *
-   *
-   * @return
-   */
   public String getExecutableName()
   {
     return executableName;
   }
 
-  /**
-   * Method description
-   *
-   *
-   * @return
-   */
   public String getNodePackageType()
   {
     return nodePackageType;
   }
 
-  /**
-   * Method description
-   *
-   *
-   * @param version
-   *
-   * @return
-   */
   public String getNodeUrl(String version)
   {
     return MessageFormat.format(URL_TEMPLATE.concat(nodeFilePattern), version);
   }
 
-  /**
-   * Method description
-   *
-   *
-   * @return
-   */
   public boolean isNodeUnpacked()
   {
     return nodeUnpacked;
   }
 
-  //~--- fields ---------------------------------------------------------------
-
-  /** Field description */
-  private final String executableName;
-
-  /** Field description */
-  private final String nodeFilePattern;
-
-  /** Field description */
-  private final String nodePackageType;
-
-  /** Field description */
-  private final boolean nodeUnpacked;
 }
