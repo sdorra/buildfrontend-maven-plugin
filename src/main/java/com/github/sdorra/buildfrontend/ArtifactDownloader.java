@@ -46,7 +46,7 @@ public class ArtifactDownloader {
         }
     }
 
-    private void downloadAndInstall(ArtifactRepository artifactRepository, Artifact artifact, String url) throws IOException, ArtifactInstallationException, InvalidRepositoryException {
+    private void downloadAndInstall(ArtifactRepository artifactRepository, Artifact artifact, String url) throws IOException, ArtifactInstallationException {
         File temporaryFile = File.createTempFile(artifact.getArtifactId(), artifact.getType());
         try {
             download(url, temporaryFile);

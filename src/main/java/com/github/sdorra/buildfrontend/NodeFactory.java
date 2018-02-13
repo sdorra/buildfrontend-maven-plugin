@@ -81,7 +81,7 @@ public class NodeFactory {
         }
 
         File node = new File(nodeDirectory, PATH_NODE_BIN);
-        if ((node == null) || !node.exists()) {
+        if  (!node.exists()) {
             throw new IOException("could not find node executable");
         }
 
