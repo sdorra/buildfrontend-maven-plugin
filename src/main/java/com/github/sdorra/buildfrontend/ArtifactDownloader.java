@@ -8,7 +8,6 @@ import org.apache.maven.artifact.InvalidRepositoryException;
 import org.apache.maven.artifact.installer.ArtifactInstallationException;
 import org.apache.maven.artifact.installer.ArtifactInstaller;
 import org.apache.maven.artifact.repository.ArtifactRepository;
-import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.repository.RepositorySystem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,18 +23,21 @@ public class ArtifactDownloader {
 
     private static final Logger LOG = LoggerFactory.getLogger(ArtifactDownloader.class);
 
-    @Inject
-    private ArtifactInstaller installer;
+    private final ArtifactInstaller installer;
+    private final RepositorySystem repositorySystem;
 
     @Inject
-    private RepositorySystem repositorySystem;
+    public ArtifactDownloader(ArtifactInstaller installer, RepositorySystem repositorySystem) {
+        this.installer = installer;
+        this.repositorySystem = repositorySystem;
+    }
 
     public void downloadIfNeeded(Artifact artifact, String url) {
         try  {
-            ArtifactRepository repository =  repositorySystem.createDefaultLocalRepository();
+            ArtifactRepository artifactRepository =  repositorySystem.createDefaultLocalRepository();
 
-            if (!isInstalled(repository, artifact)) {
-                downloadAndInstall(artifact, url);
+            if (!isInstalled(artifactRepository, artifact)) {
+                downloadAndInstall(artifactRepository, artifact, url);
             }  else  {
                 LOG.info("{} is already installed", artifact.getId());
             }
@@ -44,11 +46,11 @@ public class ArtifactDownloader {
         }
     }
 
-    private void downloadAndInstall(Artifact artifact, String url) throws IOException, ArtifactInstallationException, InvalidRepositoryException {
+    private void downloadAndInstall(ArtifactRepository artifactRepository, Artifact artifact, String url) throws IOException, ArtifactInstallationException, InvalidRepositoryException {
         File temporaryFile = File.createTempFile(artifact.getArtifactId(), artifact.getType());
         try {
             download(url, temporaryFile);
-            installer.install(temporaryFile, artifact, repositorySystem.createDefaultLocalRepository());
+            installer.install(temporaryFile, artifact, artifactRepository);
         } finally {
             if (!temporaryFile.delete()) {
                 LOG.warn("failed to remove temporary file {}", temporaryFile);

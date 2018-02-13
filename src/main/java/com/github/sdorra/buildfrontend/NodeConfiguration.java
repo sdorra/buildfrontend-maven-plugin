@@ -7,4 +7,8 @@ public class NodeConfiguration {
     public String getVersion() {
         return version;
     }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
 }

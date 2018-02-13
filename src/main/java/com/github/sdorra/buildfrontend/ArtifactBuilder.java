@@ -12,14 +12,18 @@ public class ArtifactBuilder {
 
     private static final String GROUPID = "com.github.sdorra";
 
+    private final RepositorySystem repositorySystem;
+
     @Inject
-    private RepositorySystem repositorySystem;
+    public ArtifactBuilder(RepositorySystem repositorySystem) {
+        this.repositorySystem = repositorySystem;
+    }
 
     public ArtifactBuilderFinalizer builder(String artifactId, String version, String packaging) {
         return new ArtifactBuilderFinalizer(repositorySystem, artifactId, version, packaging);
     }
 
-    public static class ArtifactBuilderFinalizer {
+    public class ArtifactBuilderFinalizer {
 
         private RepositorySystem repositorySystem;
         private String artifactId;

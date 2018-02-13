@@ -1,5 +1,6 @@
 package com.github.sdorra.buildfrontend;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.io.Files;
 import org.apache.maven.artifact.Artifact;
 import org.slf4j.Logger;
@@ -14,25 +15,31 @@ import java.io.IOException;
 public class NodeFactory {
 
     private static final String PATH_NODE_BIN = String.format("bin%snode", File.separator);
-    private static final String ARTIFACT_ID = "buildfrontend-node";
+
+    @VisibleForTesting
+    static final String ARTIFACT_ID = "buildfrontend-node";
 
     private static final Logger LOG = LoggerFactory.getLogger(NodeFactory.class);
 
-    @Inject
     private Directories directories;
-
-    @Inject
     private ArtifactBuilder artifactBuilder;
-
-    @Inject
     private ArtifactExtractor artifactExtractor;
-
-    @Inject
     private ArtifactDownloader artifactDownloader;
 
-    public Node create(NodeConfiguration nodeConfiguration) throws IOException {
-        NodePlatform nodePlatform = NodePlatform.current();
+    @Inject
+    public NodeFactory(Directories directories, ArtifactBuilder artifactBuilder, ArtifactExtractor artifactExtractor, ArtifactDownloader artifactDownloader) {
+        this.directories = directories;
+        this.artifactBuilder = artifactBuilder;
+        this.artifactExtractor = artifactExtractor;
+        this.artifactDownloader = artifactDownloader;
+    }
 
+    public Node create(NodeConfiguration nodeConfiguration) throws IOException {
+        return create(nodeConfiguration, NodePlatform.current());
+    }
+
+    @VisibleForTesting
+    Node create(NodeConfiguration nodeConfiguration, NodePlatform nodePlatform) throws IOException {
         String version = nodeConfiguration.getVersion();
         Artifact artifact = createNodeArtifact(nodePlatform, version);
         artifactDownloader.downloadIfNeeded(artifact, nodePlatform.getNodeUrl(version));
@@ -56,37 +63,25 @@ public class NodeFactory {
             return nodeFile;
         } else {
             File directory = artifactExtractor.extractIfNeeded(artifact);
-            return findNodeExecutable(nodePlatform, directory, artifact.getVersion());
+            return findNodeExecutable(directory, artifact.getVersion());
         }
     }
 
-    private File findNodeExecutable(NodePlatform nodePlatform, File directory, String nodeVersion) throws IOException {
-        File node = null;
-
-        if (nodePlatform.isNodeUnpacked()) {
-            for (File f : directory.listFiles()) {
-                if (f.getName().startsWith("node")) {
-                    node = f;
-                    break;
-                }
+    private File findNodeExecutable(File directory, String nodeVersion) throws IOException {
+        File nodeDirectory = null;
+        for (File f : directory.listFiles()) {
+            if (f.getName().startsWith("node-".concat(nodeVersion))) {
+                nodeDirectory = f;
+                break;
             }
-        } else {
-            File nodeDirectory = null;
-            for (File f : directory.listFiles()) {
-                if (f.getName().startsWith("node-".concat(nodeVersion))) {
-                    nodeDirectory = f;
-                    break;
-                }
-            }
-
-            if (nodeDirectory == null) {
-                throw new IOException("could not find node directory");
-            }
-
-            node = new File(nodeDirectory, PATH_NODE_BIN);
         }
 
-        if ((node == null) ||!node.exists()) {
+        if (nodeDirectory == null) {
+            throw new IOException("could not find node directory");
+        }
+
+        File node = new File(nodeDirectory, PATH_NODE_BIN);
+        if ((node == null) || !node.exists()) {
             throw new IOException("could not find node executable");
         }
 

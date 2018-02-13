@@ -1,8 +1,6 @@
 package com.github.sdorra.buildfrontend;
 
 import org.apache.maven.artifact.Artifact;
-import org.apache.maven.plugins.annotations.Component;
-import org.apache.maven.plugins.annotations.Parameter;
 import org.codehaus.plexus.archiver.UnArchiver;
 import org.codehaus.plexus.archiver.manager.ArchiverManager;
 import org.codehaus.plexus.archiver.manager.NoSuchArchiverException;
@@ -19,11 +17,14 @@ public class ArtifactExtractor {
 
     private static final Logger LOG = LoggerFactory.getLogger(ArtifactExtractor.class);
 
-    @Inject
-    private ArchiverManager archiverManager;
+    private final Directories directories;
+    private final ArchiverManager archiverManager;
 
     @Inject
-    private Directories directories;
+    public ArtifactExtractor(Directories directories, ArchiverManager archiverManager) {
+        this.directories = directories;
+        this.archiverManager = archiverManager;
+    }
 
     public File extractIfNeeded(Artifact artifact) throws IOException {
         File directory = new File(directories.getBuildDirectory(), artifact.getArtifactId());

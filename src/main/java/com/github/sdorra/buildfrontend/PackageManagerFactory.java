@@ -10,17 +10,19 @@ import java.io.IOException;
 @Named
 public class PackageManagerFactory {
 
-    @Inject
     private ArtifactBuilder artifactBuilder;
-
-    @Inject
     private ArtifactDownloader artifactDownloader;
-
-    @Inject
     private ArtifactExtractor artifactExtractor;
 
+    @Inject
+    public PackageManagerFactory(ArtifactBuilder artifactBuilder, ArtifactDownloader artifactDownloader, ArtifactExtractor artifactExtractor) {
+        this.artifactBuilder = artifactBuilder;
+        this.artifactDownloader = artifactDownloader;
+        this.artifactExtractor = artifactExtractor;
+    }
+
     public PackageManager create(PackageManagerConfiguration configuration, Node node) throws IOException {
-        String executable = installPackageManager(configuration, node);
+        String executable = installPackageManager(configuration);
         switch (configuration.getType()) {
             case NPM:
                 return new NpmPackageManager(node, executable);
@@ -30,7 +32,7 @@ public class PackageManagerFactory {
         throw new IllegalArgumentException("unknown package manager type");
     }
 
-    private String installPackageManager(PackageManagerConfiguration configuration, Node node) throws IOException {
+    private String installPackageManager(PackageManagerConfiguration configuration) throws IOException {
         PackageManagerType type = configuration.getType();
         String version = configuration.getVersion();
 
@@ -44,36 +46,6 @@ public class PackageManagerFactory {
         }
 
         return executable.getPath();
-    }
-
-    private PackageManager createYarn(PackageManagerConfiguration configuration, Node node) throws IOException {
-        PackageManagerType type = configuration.getType();
-        String version = configuration.getVersion();
-
-        Artifact artifact = createArtifact(type, version);
-        artifactDownloader.downloadIfNeeded(artifact, type.createUrl(version));
-        File directory = artifactExtractor.extractIfNeeded(artifact);
-
-        File npm = findFile(type.getCliPaths(), directory);
-        if (npm == null) {
-            throw new IOException("could not find npm");
-        }
-        return new YarnPackageManager(node, npm.getPath());
-    }
-
-    private PackageManager createNpm(PackageManagerConfiguration configuration, Node node) throws IOException {
-        PackageManagerType type = configuration.getType();
-        String version = configuration.getVersion();
-
-        Artifact artifact = createArtifact(type, version);
-        artifactDownloader.downloadIfNeeded(artifact, type.createUrl(version));
-        File directory = artifactExtractor.extractIfNeeded(artifact);
-
-        File npm = findFile(type.getCliPaths(), directory);
-        if (npm == null) {
-            throw new IOException("could not find npm");
-        }
-        return new NpmPackageManager(node, npm.getPath());
     }
 
     private Artifact createArtifact(PackageManagerType type, String version) {
