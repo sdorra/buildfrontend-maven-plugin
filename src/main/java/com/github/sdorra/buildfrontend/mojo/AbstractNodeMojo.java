@@ -5,7 +5,6 @@ import com.github.sdorra.buildfrontend.Node;
 import com.github.sdorra.buildfrontend.NodeConfiguration;
 import com.github.sdorra.buildfrontend.NodeFactory;
 import com.google.common.annotations.VisibleForTesting;
-import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Component;

@@ -34,6 +34,7 @@ import java.util.Locale;
  *
  * @author Sebastian Sdorra
  */
+@SuppressWarnings("squid:S1192") // disable warning: often used strings
 public enum NodePlatform {
 
     /** linux 32 bit */

@@ -55,6 +55,7 @@ public class Node {
     }
 
     @VisibleForTesting
+    @SuppressWarnings("squid:S106") // disable warning: usage of System.out
     protected ProcessResult execute(Map<String,String> env, List<String> cmds) throws InterruptedException, TimeoutException, IOException {
         return new ProcessExecutor(cmds)
                 .directory(workingDirectory)
