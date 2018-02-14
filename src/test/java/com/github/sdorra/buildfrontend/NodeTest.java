@@ -3,14 +3,12 @@ package com.github.sdorra.buildfrontend;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.zeroturnaround.exec.ProcessResult;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -23,9 +21,6 @@ public class NodeTest {
 
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
-
-    @Rule
-    public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
     @Mock
     private ProcessResult result;
