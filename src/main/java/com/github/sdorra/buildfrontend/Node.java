@@ -1,5 +1,6 @@
 package com.github.sdorra.buildfrontend;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
 import com.google.common.base.Throwables;
 import org.slf4j.Logger;
@@ -10,6 +11,7 @@ import org.zeroturnaround.exec.ProcessResult;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.TimeoutException;
 
 public class Node {
 
@@ -25,6 +27,11 @@ public class Node {
         this.executable = executable;
     }
 
+    @VisibleForTesting
+    File getExecutable() {
+        return executable;
+    }
+
     public void execute(String command, String... args) {
         List<String> cmd = new ArrayList<String>();
         cmd.add(executable.getPath());
@@ -36,20 +43,25 @@ public class Node {
     private void executeAndCatch(List<String> cmds) {
         LOG.info("execute {}", cmds);
         try {
-            ProcessResult result = new ProcessExecutor(cmds)
-                    .directory(workingDirectory)
-                    .environment(createEnvironment(executable))
-                    .redirectErrorStream(true)
-                    .redirectOutput(System.out)
-                    .execute();
-
-            int exitCode = result.getExitValue();
-            if (exitCode != 0) {
-                throw new IOException("process ends with status code " + exitCode);
+            Map<String, String> environment = createEnvironment(executable);
+            ProcessResult result = execute(environment, cmds);
+            int exitValue = result.getExitValue();
+            if (exitValue != 0) {
+                throw new IOException("process ends with exit value " + exitValue);
             }
         } catch (Exception ex) {
             throw Throwables.propagate(ex);
         }
+    }
+
+    @VisibleForTesting
+    protected ProcessResult execute(Map<String,String> env, List<String> cmds) throws InterruptedException, TimeoutException, IOException {
+        return new ProcessExecutor(cmds)
+                .directory(workingDirectory)
+                .environment(env)
+                .redirectErrorStream(true)
+                .redirectOutput(System.out)
+                .execute();
     }
 
     private Map<String,String> createEnvironment(File node){

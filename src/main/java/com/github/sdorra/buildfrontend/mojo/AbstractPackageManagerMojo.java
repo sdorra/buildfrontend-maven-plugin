@@ -4,6 +4,7 @@ import com.github.sdorra.buildfrontend.Node;
 import com.github.sdorra.buildfrontend.PackageManager;
 import com.github.sdorra.buildfrontend.PackageManagerConfiguration;
 import com.github.sdorra.buildfrontend.PackageManagerFactory;
+import com.google.common.annotations.VisibleForTesting;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Component;
@@ -18,6 +19,16 @@ public abstract class AbstractPackageManagerMojo extends AbstractNodeMojo {
 
     @Component
     private PackageManagerFactory packageManagerFactory;
+
+    @VisibleForTesting
+    void setPackageManagerConfiguration(PackageManagerConfiguration packageManagerConfiguration) {
+        this.packageManagerConfiguration = packageManagerConfiguration;
+    }
+
+    @VisibleForTesting
+    void setPackageManagerFactory(PackageManagerFactory packageManagerFactory) {
+        this.packageManagerFactory = packageManagerFactory;
+    }
 
     @Override
     protected void execute(Node node) throws MojoExecutionException, MojoFailureException {

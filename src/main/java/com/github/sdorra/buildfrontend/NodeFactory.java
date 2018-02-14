@@ -44,7 +44,7 @@ public class NodeFactory {
         Artifact artifact = createNodeArtifact(nodePlatform, version);
         artifactDownloader.downloadIfNeeded(artifact, nodePlatform.getNodeUrl(version));
 
-        File executable = extractNode(nodePlatform, artifact);
+        File executable = extractOrCopyNode(nodePlatform, artifact);
         return new Node(new File(directories.getWorkingDirectory()), executable);
     }
 
@@ -54,7 +54,7 @@ public class NodeFactory {
                 .build();
     }
 
-    private File extractNode(NodePlatform nodePlatform, Artifact artifact) throws IOException {
+    private File extractOrCopyNode(NodePlatform nodePlatform, Artifact artifact) throws IOException {
         if (nodePlatform.isNodeUnpacked()) {
             File nodeFile = new File(directories.getBuildDirectory(), nodePlatform.getExecutableName());
 

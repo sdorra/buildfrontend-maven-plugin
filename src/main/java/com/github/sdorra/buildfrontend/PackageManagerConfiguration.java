@@ -1,5 +1,6 @@
 package com.github.sdorra.buildfrontend;
 
+import com.google.common.annotations.VisibleForTesting;
 import org.apache.maven.plugins.annotations.Parameter;
 
 public class PackageManagerConfiguration {
@@ -14,8 +15,17 @@ public class PackageManagerConfiguration {
         return type;
     }
 
+    @VisibleForTesting
+    void setType(PackageManagerType type) {
+        this.type = type;
+    }
+
     public String getVersion() {
         return version;
     }
 
+    @VisibleForTesting
+    void setVersion(String version) {
+        this.version = version;
+    }
 }

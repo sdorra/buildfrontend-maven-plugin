@@ -22,14 +22,23 @@ public class PackageManagerFactory {
     }
 
     public PackageManager create(PackageManagerConfiguration configuration, Node node) throws IOException {
-        String executable = installPackageManager(configuration);
-        switch (configuration.getType()) {
-            case NPM:
-                return new NpmPackageManager(node, executable);
-            case YARN:
-                return new YarnPackageManager(node, executable);
+        if (configuration.getType() == PackageManagerType.NPM) {
+            return createNpmPackageManager(configuration, node);
+        } else if (configuration.getType() == PackageManagerType.YARN) {
+            return createYarnPackageManager(configuration, node);
+        } else {
+            throw new IllegalArgumentException("unknown package manager type");
         }
-        throw new IllegalArgumentException("unknown package manager type");
+    }
+
+    private PackageManager createNpmPackageManager(PackageManagerConfiguration configuration, Node node) throws IOException {
+        String executable = installPackageManager(configuration);
+        return new NpmPackageManager(node, executable);
+    }
+
+    private PackageManager createYarnPackageManager(PackageManagerConfiguration configuration, Node node) throws IOException {
+        String executable = installPackageManager(configuration);
+        return new YarnPackageManager(node, executable);
     }
 
     private String installPackageManager(PackageManagerConfiguration configuration) throws IOException {
@@ -42,7 +51,7 @@ public class PackageManagerFactory {
 
         File executable = findFile(type.getCliPaths(), directory);
         if (executable == null) {
-            throw new IOException("could not find npm");
+            throw new IOException("could not find package manager executable");
         }
 
         return executable.getPath();

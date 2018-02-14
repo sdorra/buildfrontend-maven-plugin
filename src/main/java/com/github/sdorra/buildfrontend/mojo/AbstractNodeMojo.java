@@ -4,6 +4,7 @@ import com.github.sdorra.buildfrontend.Directories;
 import com.github.sdorra.buildfrontend.Node;
 import com.github.sdorra.buildfrontend.NodeConfiguration;
 import com.github.sdorra.buildfrontend.NodeFactory;
+import com.google.common.annotations.VisibleForTesting;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -19,6 +20,16 @@ public abstract class AbstractNodeMojo extends AbstractDirectoryMojo {
 
     @Component
     private NodeFactory nodeFactory;
+
+    @VisibleForTesting
+    void setNodeConfiguration(NodeConfiguration nodeConfiguration) {
+        this.nodeConfiguration = nodeConfiguration;
+    }
+
+    @VisibleForTesting
+    void setNodeFactory(NodeFactory nodeFactory) {
+        this.nodeFactory = nodeFactory;
+    }
 
     @Override
     public void execute(Directories directories) throws MojoExecutionException, MojoFailureException {
