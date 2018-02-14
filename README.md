@@ -1,5 +1,10 @@
 # buildfrontend-maven-plugin
 
+[![Build Status](https://travis-ci.org/sdorra/buildfrontend-maven-plugin.svg?branch=master)](https://travis-ci.org/sdorra/buildfrontend-maven-plugin)
+[![Maven Central](https://img.shields.io/maven-central/v/com.github.sdorra/buildfrontend-maven-plugin.svg)](http://search.maven.org/#search%7Cga%7C1%7Ca%3A%22buildfrontend-maven-plugin%22)
+[![Quality Gates](https://sonarcloud.io/api/badges/gate?key=com.github.sdorra%3Abuildfrontend-maven-plugin)](https://sonarcloud.io/dashboard?id=com.github.sdorra%3Abuildfrontend-maven-plugin)
+[![Coverage](https://sonarcloud.io/api/badges/measure?key=com.github.sdorra%3Abuildfrontend-maven-plugin&metric=coverage)](https://sonarcloud.io/dashboard?id=com.github.sdorra%3Abuildfrontend-maven-plugin)
+
 Installs and run [node](http://nodejs.org/), [npm](https://www.npmjs.org) or [yarn](https://yarnpkg.com) as part of your 
 [maven](http://maven.apache.org/) build. The buildfrontend-maven-plugin will do the following steps for you:
 
@@ -53,3 +58,22 @@ A demo project can be found [here](https://github.com/sdorra/buildfrontend-maven
   </plugins>
 </build>
 ```
+
+## Differences to version 1.x
+
+The project does not longer support steps for each tool (e.g.: bower, npm, karma, ...), version 2.x focuses on the usage
+of scripts inside the package.json. If you want to run bower or karma just add a script to your package.json and use
+the run goal.
+
+Version 2.x uses an abstraction for node package manager, so you can decide if you want to use npm or yarn.
+
+## Why not [eirslett/frontend-maven-plugin](https://github.com/eirslett/frontend-maven-plugin)?
+
+The buildfrontend-maven-plugin is heavily inspired from the great work of [eirslett](https://github.com/eirslett). The
+main differences between both projects is that buildfrontend-maven-plugin installs the downloaded components into the
+local maven repository before extraction. This gives a better performance during a clean build, because we don't have to
+download the artifacts again. 
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE.md) file for details.
