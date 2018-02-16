@@ -9,16 +9,23 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.plugins.annotations.Parameter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
 public abstract class AbstractNodeMojo extends AbstractDirectoryMojo {
+
+    private static final Logger LOG = LoggerFactory.getLogger(AbstractNodeMojo.class);
 
     @Parameter(alias = "node")
     private NodeConfiguration nodeConfiguration;
 
     @Component
     private NodeFactory nodeFactory;
+
+    @Parameter
+    private boolean skip;
 
     @VisibleForTesting
     void setNodeConfiguration(NodeConfiguration nodeConfiguration) {
@@ -30,13 +37,22 @@ public abstract class AbstractNodeMojo extends AbstractDirectoryMojo {
         this.nodeFactory = nodeFactory;
     }
 
+    @VisibleForTesting
+    void setSkip(boolean skip) {
+        this.skip = skip;
+    }
+
     @Override
     public void execute(Directories directories) throws MojoExecutionException, MojoFailureException {
-        try {
-            Node node = nodeFactory.create(nodeConfiguration);
-            execute(node);
-        } catch (IOException e) {
-            throw new MojoExecutionException("failed to create node", e);
+        if (!skip) {
+            try {
+                Node node = nodeFactory.create(nodeConfiguration);
+                execute(node);
+            } catch (IOException e) {
+                throw new MojoExecutionException("failed to create node", e);
+            }
+        } else {
+            LOG.warn("execution skipped");
         }
     }
 

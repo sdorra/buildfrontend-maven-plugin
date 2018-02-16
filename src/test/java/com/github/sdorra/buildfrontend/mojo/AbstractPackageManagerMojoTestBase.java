@@ -10,12 +10,12 @@ import static org.mockito.Mockito.when;
 public abstract class AbstractPackageManagerMojoTestBase {
 
     @Mock
-    private NodeFactory nodeFactory;
+    protected NodeFactory nodeFactory;
 
     @Mock
     private Node node;
 
-    private NodeConfiguration nodeConfiguration = new NodeConfiguration();
+    protected NodeConfiguration nodeConfiguration = new NodeConfiguration();
 
     @Mock
     private PackageManagerFactory packageManagerFactory;

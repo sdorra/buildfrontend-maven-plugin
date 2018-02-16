@@ -9,6 +9,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import java.io.IOException;
 
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -28,5 +29,12 @@ public class ScriptMojoTest extends AbstractPackageManagerMojoTestBase {
         mojo.execute();
 
         verify(packageManager).run("awesome");
+    }
+
+    @Test
+    public void testSkip() throws IOException {
+        mojo.setSkip(true);
+
+        verify(nodeFactory, never()).create(nodeConfiguration);
     }
 }
