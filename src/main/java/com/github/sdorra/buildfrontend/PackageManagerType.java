@@ -3,8 +3,8 @@ package com.github.sdorra.buildfrontend;
 import java.text.MessageFormat;
 
 public enum PackageManagerType {
-    NPM("buildfrontend-npm", "zip", "https://github.com/npm/npm/archive/{0}.zip", "node_modules/npm/cli.js", "bin/npm-cli.js"),
-    YARN("buildfrontend-yarn", "tar.gz", "https://github.com/yarnpkg/yarn/releases/download/{0}/yarn-{0}.tar.gz", "bin/yarn.js");
+    NPM("buildfrontend-npm", "zip", "https://github.com/npm/npm/archive/v{0}.zip", "node_modules/npm/cli.js", "bin/npm-cli.js"),
+    YARN("buildfrontend-yarn", "tar.gz", "https://github.com/yarnpkg/yarn/releases/download/v{0}/yarn-v{0}.tar.gz", "bin/yarn.js");
 
     private final String artifactId;
     private final String packaging;

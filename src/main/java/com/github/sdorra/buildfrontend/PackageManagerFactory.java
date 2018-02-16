@@ -6,6 +6,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.File;
 import java.io.IOException;
+import java.util.Locale;
+import java.util.regex.Pattern;
 
 @Named
 public class PackageManagerFactory {
@@ -49,7 +51,8 @@ public class PackageManagerFactory {
         artifactDownloader.downloadIfNeeded(artifact, type.createUrl(version));
         File directory = artifactExtractor.extractIfNeeded(artifact);
 
-        File executable = findFile(type.getCliPaths(), directory);
+        File packageManagerDirectory = findDirectory(configuration, directory);
+        File executable = findFile(type.getCliPaths(), packageManagerDirectory);
         if (executable == null) {
             throw new IOException("could not find package manager executable");
         }
@@ -59,6 +62,19 @@ public class PackageManagerFactory {
 
     private Artifact createArtifact(PackageManagerType type, String version) {
         return artifactBuilder.builder(type.getArtifactId(), version, type.getPackaging()).build();
+    }
+
+    private File findDirectory(PackageManagerConfiguration configuration, File directory) {
+        String typeString = configuration.getType().name().toLowerCase(Locale.ENGLISH);
+        String pattern = String.format("%s-[v]?%s", typeString, Pattern.quote(configuration.getVersion()));
+
+        for (File child : directory.listFiles()) {
+            String fileName = child.getName();
+            if (child.isDirectory() && fileName.matches(pattern)) {
+                return child;
+            }
+        }
+        return directory;
     }
 
     private File findFile(String[] paths, File directory) {

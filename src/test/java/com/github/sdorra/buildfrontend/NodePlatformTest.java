@@ -32,9 +32,9 @@ public class NodePlatformTest {
 
     @Test
     public void testGetNodeUrl() {
-        assertEquals("https://nodejs.org/dist/v8.9.4/node-v8.9.4-darwin-x64.tar.gz", NodePlatform.MACOS_X64.getNodeUrl("v8.9.4"));
-        assertEquals("https://nodejs.org/dist/v8.9.4/win-x64/node.exe", NodePlatform.WINDOWS_X64.getNodeUrl("v8.9.4"));
-        assertEquals("https://nodejs.org/dist/v8.9.4/node.exe", NodePlatform.WINDOWS_X86.getNodeUrl("v8.9.4"));
+        assertEquals("https://nodejs.org/dist/v8.9.4/node-v8.9.4-darwin-x64.tar.gz", NodePlatform.MACOS_X64.getNodeUrl("8.9.4"));
+        assertEquals("https://nodejs.org/dist/v8.9.4/win-x64/node.exe", NodePlatform.WINDOWS_X64.getNodeUrl("8.9.4"));
+        assertEquals("https://nodejs.org/dist/v8.9.4/node.exe", NodePlatform.WINDOWS_X86.getNodeUrl("8.9.4"));
     }
 
 }

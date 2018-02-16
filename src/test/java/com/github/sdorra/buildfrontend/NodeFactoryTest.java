@@ -93,6 +93,37 @@ public class NodeFactoryTest {
     }
 
     @Test
+    public void testCreateOnMacOsX() throws IOException {
+        File extractedDirectory = temporaryFolder.newFolder();
+        when(artifactExtractor.extractIfNeeded(artifact)).thenReturn(extractedDirectory);
+
+        File nodeDirectory = new File(extractedDirectory, "node-v8.9.4-darwin-x64");
+        assertTrue(nodeDirectory.mkdir());
+
+        File binDirectory = new File(nodeDirectory, "bin");
+        assertTrue(binDirectory.mkdir());
+
+        File nodeFile = new File(binDirectory, "node");
+        assertTrue(nodeFile.createNewFile());
+
+        when(artifact.getVersion()).thenReturn("v8.9.4");
+
+        NodePlatform platform = NodePlatform.MACOS_X64;
+
+        when(finalizer.build()).thenReturn(artifact);
+        when(finalizer.withClassifier(platform.getClassifier())).thenReturn(finalizer);
+        when(artifactBuilder.builder(NodeFactory.ARTIFACT_ID, "v8.9.4", platform.getNodePackageType())).thenReturn(finalizer);
+
+        NodeConfiguration configuration = new NodeConfiguration();
+        configuration.setVersion("v8.9.4");
+
+        Node node = nodeFactory.create(configuration, platform);
+        assertNotNull(node);
+
+        verify(artifactDownloader).downloadIfNeeded(artifact, platform.getNodeUrl("v8.9.4"));
+    }
+
+    @Test
     public void createOnUnpackedPlatform() throws IOException {
         File nodeBinary = temporaryFolder.newFile();
         Files.write("xyz", nodeBinary, Charsets.UTF_8);

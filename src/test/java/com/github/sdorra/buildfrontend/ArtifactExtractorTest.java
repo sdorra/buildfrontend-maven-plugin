@@ -74,16 +74,4 @@ public class ArtifactExtractorTest {
         File returned = artifactExtractor.extractIfNeeded(artifact);
         assertEquals(directory, returned);
     }
-
-    @Test
-    public void testExtractIfNeededAlreadyExtractedWithSingleSubDirectory() throws IOException {
-        File directory = new File(buildDirectory, "special");
-        assertTrue(directory.mkdir());
-
-        File ssd = new File(directory, "dir");
-        assertTrue(ssd.mkdir());
-
-        File returned = artifactExtractor.extractIfNeeded(artifact);
-        assertEquals(ssd, returned);
-    }
 }

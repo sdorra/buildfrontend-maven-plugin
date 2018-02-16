@@ -10,6 +10,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.File;
 import java.io.IOException;
+import java.util.regex.Pattern;
 
 @Named
 public class NodeFactory {
@@ -68,9 +69,12 @@ public class NodeFactory {
     }
 
     private File findNodeExecutable(File directory, String nodeVersion) throws IOException {
+        LOG.debug("searching node version {} at directory {}", nodeVersion, directory);
+
+        String pattern = String.format("node-(v)?.*", Pattern.quote(nodeVersion));
         File nodeDirectory = null;
         for (File f : directory.listFiles()) {
-            if (f.getName().startsWith("node-".concat(nodeVersion))) {
+            if (f.getName().matches(pattern)) {
                 nodeDirectory = f;
                 break;
             }

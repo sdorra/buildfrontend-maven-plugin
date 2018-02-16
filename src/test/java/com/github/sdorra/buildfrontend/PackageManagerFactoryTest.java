@@ -46,7 +46,7 @@ public class PackageManagerFactoryTest {
     @Test
     public void testCreateNpm() throws IOException {
         PackageManagerType type = PackageManagerType.NPM;
-        String version = "v5.6.0";
+        String version = "5.6.0";
 
         PackageManagerConfiguration configuration = new PackageManagerConfiguration();
         configuration.setType(type);
@@ -57,7 +57,10 @@ public class PackageManagerFactoryTest {
 
         File extractedFolder = temporaryFolder.newFolder();
 
-        File binFolder = new File(extractedFolder, "bin");
+        File npmFolder = new File(extractedFolder,"npm-5.6.0");
+        assertTrue(npmFolder.mkdir());
+
+        File binFolder = new File(npmFolder, "bin");
         assertTrue(binFolder.mkdir());
 
         File cliFile = new File(binFolder, "npm-cli.js");
@@ -75,7 +78,7 @@ public class PackageManagerFactoryTest {
     @Test
     public void testCreateYarn() throws IOException {
         PackageManagerType type = PackageManagerType.YARN;
-        String version = "v1.3.2";
+        String version = "1.3.2";
 
         PackageManagerConfiguration configuration = new PackageManagerConfiguration();
         configuration.setType(type);
@@ -86,7 +89,10 @@ public class PackageManagerFactoryTest {
 
         File extractedFolder = temporaryFolder.newFolder();
 
-        File binFolder = new File(extractedFolder, "bin");
+        File yarnFolder = new File(extractedFolder,"yarn-v1.3.2");
+        assertTrue(yarnFolder.mkdir());
+
+        File binFolder = new File(yarnFolder, "bin");
         assertTrue(binFolder.mkdir());
 
         File cliFile = new File(binFolder, "yarn.js");
@@ -104,7 +110,7 @@ public class PackageManagerFactoryTest {
     @Test(expected = IOException.class)
     public void testCreateMissingBinary() throws IOException {
         PackageManagerType type = PackageManagerType.YARN;
-        String version = "v1.3.2";
+        String version = "1.3.2";
 
         PackageManagerConfiguration configuration = new PackageManagerConfiguration();
         configuration.setType(type);

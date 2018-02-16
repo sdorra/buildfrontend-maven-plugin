@@ -38,23 +38,23 @@ import java.util.Locale;
 public enum NodePlatform {
 
     /** linux 32 bit */
-    LINUX_X86("node-{0}-linux-x86.tar.gz", "tar.gz", false, "node"),
+    LINUX_X86("node-v{0}-linux-x86.tar.gz", "tar.gz", false, "node"),
     /** linux 64 bit */
-    LINUX_X64("node-{0}-linux-x64.tar.gz", "tar.gz", false, "node"),
+    LINUX_X64("node-v{0}-linux-x64.tar.gz", "tar.gz", false, "node"),
     /** macos 32 bit */
-    MACOS_X86("node-{0}-darwin-x86.tar.gz", "tar.gz", false, "node"),
+    MACOS_X86("node-v{0}-darwin-x86.tar.gz", "tar.gz", false, "node"),
     /** macos 64 bit */
-    MACOS_X64("node-{0}-darwin-x64.tar.gz", "tar.gz", false, "node"),
+    MACOS_X64("node-v{0}-darwin-x64.tar.gz", "tar.gz", false, "node"),
     /** sunos/solaris 32 bit */
-    SUNOS_X86("node-{0}-sunos-x86.tar.gz", "tar.gz", false, "node"),
+    SUNOS_X86("node-v{0}-sunos-x86.tar.gz", "tar.gz", false, "node"),
     /** sunos/solaris 64 bit */
-    SUNOS_X64("node-{0}-sunos-x64.tar.gz", "tar.gz", false, "node"),
+    SUNOS_X64("node-v{0}-sunos-x64.tar.gz", "tar.gz", false, "node"),
     /** windows 32 bit */
     WINDOWS_X86("node.exe", "exe", true, "node.exe"),
     /** windows 64 bit */
     WINDOWS_X64("win-x64/node.exe", "exe", true, "node.exe");
 
-    private static final String URL_TEMPLATE = "https://nodejs.org/dist/{0}/";
+    private static final String URL_TEMPLATE = "https://nodejs.org/dist/v{0}/";
 
     private final String nodeFilePattern;
     private final String nodePackageType;

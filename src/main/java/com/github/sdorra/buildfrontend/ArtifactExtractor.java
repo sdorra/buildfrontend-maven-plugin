@@ -33,15 +33,6 @@ public class ArtifactExtractor {
         } else {
             extract(artifact, directory);
         }
-
-        File[] children = directory.listFiles();
-        if (children.length == 1) {
-            File child = children[0];
-            if (child.isDirectory()) {
-                return child;
-            }
-        }
-
         return directory;
     }
 
