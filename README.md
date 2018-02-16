@@ -1,6 +1,7 @@
 # buildfrontend-maven-plugin
 
 [![Build Status](https://travis-ci.org/sdorra/buildfrontend-maven-plugin.svg?branch=master)](https://travis-ci.org/sdorra/buildfrontend-maven-plugin)
+[![Build status](https://ci.appveyor.com/api/projects/status/lqpabvst2vwybtg8?svg=true)](https://ci.appveyor.com/project/sdorra/buildfrontend-maven-plugin)
 [![Maven Central](https://img.shields.io/maven-central/v/com.github.sdorra/buildfrontend-maven-plugin.svg)](http://search.maven.org/#search%7Cga%7C1%7Ca%3A%22buildfrontend-maven-plugin%22)
 [![Quality Gates](https://sonarcloud.io/api/badges/gate?key=com.github.sdorra%3Abuildfrontend-maven-plugin)](https://sonarcloud.io/dashboard?id=com.github.sdorra%3Abuildfrontend-maven-plugin)
 [![Coverage](https://sonarcloud.io/api/badges/measure?key=com.github.sdorra%3Abuildfrontend-maven-plugin&metric=coverage)](https://sonarcloud.io/dashboard?id=com.github.sdorra%3Abuildfrontend-maven-plugin)
