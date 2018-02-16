@@ -19,6 +19,8 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class NodeTest {
 
+    private static final String EXECUTABLE = String.format("parent%snode", File.separator);
+
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
 
@@ -27,7 +29,7 @@ public class NodeTest {
 
     @Test
     public void testExecute() {
-        CapturingNode node = new CapturingNode("work", "parent/node");
+        CapturingNode node = new CapturingNode("work", EXECUTABLE);
         node.execute("b", "c");
 
         int i = 0;
@@ -45,7 +47,7 @@ public class NodeTest {
 
         when(result.getExitValue()).thenReturn(2);
 
-        CapturingNode node = new CapturingNode("work", "parent/node");
+        CapturingNode node = new CapturingNode("work", EXECUTABLE);
         node.execute("b", "c");
     }
 
