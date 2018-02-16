@@ -411,8 +411,8 @@
                         <artifactId>maven-invoker-plugin</artifactId>
                         <version>3.0.1</version>
                         <configuration>
-                            <debug>true</debug>
                             <showErrors>true</showErrors>
+                            <streamLogs>true</streamLogs>
                             <goals>
                                 <goal>clean</goal>
                                 <goal>package</goal>
