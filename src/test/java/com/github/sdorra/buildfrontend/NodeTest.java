@@ -33,7 +33,7 @@ public class NodeTest {
         node.execute("b", "c");
 
         int i = 0;
-        assertEquals("parent/node", node.cmds.get(i++));
+        assertEquals(EXECUTABLE, node.cmds.get(i++));
         assertEquals("b", node.cmds.get(i++));
         assertEquals("c", node.cmds.get(i++));
 
