@@ -146,6 +146,31 @@ public class NodeFactoryTest {
     }
 
     @Test
+    public void createOnUnpackedPlatformWithNonExistingBuildDirectory() throws IOException {
+        assertTrue(new File(directories.getBuildDirectory()).delete());
+
+        File nodeBinary = temporaryFolder.newFile();
+        Files.write("xyz", nodeBinary, Charsets.UTF_8);
+
+        when(artifact.getFile()).thenReturn(nodeBinary);
+
+        NodePlatform platform = NodePlatform.WINDOWS_X64;
+
+        when(finalizer.build()).thenReturn(artifact);
+        when(finalizer.withClassifier(platform.getClassifier())).thenReturn(finalizer);
+        when(artifactBuilder.builder(NodeFactory.ARTIFACT_ID, "v8.9.4", platform.getNodePackageType())).thenReturn(finalizer);
+
+        NodeConfiguration configuration = new NodeConfiguration();
+        configuration.setVersion("v8.9.4");
+
+        Node node = nodeFactory.create(configuration, platform);
+        assertNotNull(node);
+        assertEquals("xyz", Files.toString(node.getExecutable(), Charsets.UTF_8));
+
+        verify(artifactDownloader).downloadIfNeeded(artifact, platform.getNodeUrl("v8.9.4"));
+    }
+
+    @Test
     public void testCreateWithoutNodeDirectory() throws IOException {
         expectedException.expect(IOException.class);
         expectedException.expectMessage("directory");

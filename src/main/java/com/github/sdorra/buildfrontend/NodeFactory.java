@@ -56,6 +56,11 @@ public class NodeFactory {
     }
 
     private File extractOrCopyNode(NodePlatform nodePlatform, Artifact artifact) throws IOException {
+        File buildDirectory = new File(directories.getBuildDirectory());
+        if (!buildDirectory.exists() && !buildDirectory.mkdirs()) {
+            throw new IOException("failed to create build directory");
+        }
+
         if (nodePlatform.isNodeUnpacked()) {
             File nodeFile = new File(directories.getBuildDirectory(), nodePlatform.getExecutableName());
 
