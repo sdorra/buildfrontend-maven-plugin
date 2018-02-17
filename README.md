@@ -3,7 +3,7 @@
 [![Quality Gates](https://sonarcloud.io/api/badges/gate?key=com.github.sdorra%3Abuildfrontend-maven-plugin)](https://sonarcloud.io/dashboard?id=com.github.sdorra%3Abuildfrontend-maven-plugin)
 [![Coverage](https://sonarcloud.io/api/badges/measure?key=com.github.sdorra%3Abuildfrontend-maven-plugin&metric=coverage)](https://sonarcloud.io/dashboard?id=com.github.sdorra%3Abuildfrontend-maven-plugin)
 [![Maven Central](https://img.shields.io/maven-central/v/com.github.sdorra/buildfrontend-maven-plugin.svg)](http://search.maven.org/#search%7Cga%7C1%7Ca%3A%22buildfrontend-maven-plugin%22)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE.md)
 
 Installs and run [node](http://nodejs.org/), [npm](https://www.npmjs.org) or [yarn](https://yarnpkg.com) as part of your 
 [maven](http://maven.apache.org/) build. The buildfrontend-maven-plugin will do the following steps for you:

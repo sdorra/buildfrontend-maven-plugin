@@ -10,7 +10,7 @@
     <packaging>maven-plugin</packaging>
     <name>buildfrontend-maven-plugin</name>
     <description>
-        Installs and run node, npm, bower, grunt, gulp and karma as part of your maven build.
+        Installs and run node, npm or yarn as part of your maven build
     </description>
     <url>http://sdorra.github.io/buildfrontend-maven-plugin</url>
 
@@ -34,7 +34,7 @@
     <scm>
         <connection>scm:git:git@github.com:sdorra/buildfrontend-maven-plugin</connection>
         <developerConnection>scm:git:git@github.com:sdorra/buildfrontend-maven-plugin.git</developerConnection>
-        <url>git@github.com:sdorra/nativepkg-maven-plugin</url>
+        <url>https://github.com/sdorra/buildfrontend-maven-plugin</url>
         <tag>HEAD</tag>
     </scm>
 
@@ -336,7 +336,6 @@
                             <configuration>
                                 <linkXref>true</linkXref>
                                 <sourceEncoding>${project.build.sourceEncoding}</sourceEncoding>
-                                <targetJdk>${project.build.javaLevel}</targetJdk>
                             </configuration>
                         </plugin>
 
