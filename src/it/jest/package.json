@@ -1,0 +1,11 @@
+{
+  "name": "jest",
+  "version": "1.0.0",
+  "license": "MIT",
+  "dependencies": {
+    "jest": "^22.3.0"
+  },
+  "scripts": {
+    "test": "jest"
+  }
+}
