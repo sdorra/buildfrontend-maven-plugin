@@ -1,10 +1,9 @@
 # buildfrontend-maven-plugin
 
-[![Build Status](https://travis-ci.org/sdorra/buildfrontend-maven-plugin.svg?branch=master)](https://travis-ci.org/sdorra/buildfrontend-maven-plugin)
-[![Build status](https://ci.appveyor.com/api/projects/status/lqpabvst2vwybtg8?svg=true)](https://ci.appveyor.com/project/sdorra/buildfrontend-maven-plugin)
-[![Maven Central](https://img.shields.io/maven-central/v/com.github.sdorra/buildfrontend-maven-plugin.svg)](http://search.maven.org/#search%7Cga%7C1%7Ca%3A%22buildfrontend-maven-plugin%22)
 [![Quality Gates](https://sonarcloud.io/api/badges/gate?key=com.github.sdorra%3Abuildfrontend-maven-plugin)](https://sonarcloud.io/dashboard?id=com.github.sdorra%3Abuildfrontend-maven-plugin)
 [![Coverage](https://sonarcloud.io/api/badges/measure?key=com.github.sdorra%3Abuildfrontend-maven-plugin&metric=coverage)](https://sonarcloud.io/dashboard?id=com.github.sdorra%3Abuildfrontend-maven-plugin)
+[![Maven Central](https://img.shields.io/maven-central/v/com.github.sdorra/buildfrontend-maven-plugin.svg)](http://search.maven.org/#search%7Cga%7C1%7Ca%3A%22buildfrontend-maven-plugin%22)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 Installs and run [node](http://nodejs.org/), [npm](https://www.npmjs.org) or [yarn](https://yarnpkg.com) as part of your 
 [maven](http://maven.apache.org/) build. The buildfrontend-maven-plugin will do the following steps for you:
@@ -13,6 +12,12 @@ Installs and run [node](http://nodejs.org/), [npm](https://www.npmjs.org) or [ya
 * installs them to your local maven repository
 * extract the archives from the local maven repository
 * invoke the tools with the configured parameters
+
+## Continuous integration
+
+Travis (Linux & Mac OS X): [![Build Status](https://travis-ci.org/sdorra/buildfrontend-maven-plugin.svg?branch=master)](https://travis-ci.org/sdorra/buildfrontend-maven-plugin)
+
+Appveyor (Windows): [![Build status](https://ci.appveyor.com/api/projects/status/lqpabvst2vwybtg8?svg=true)](https://ci.appveyor.com/project/sdorra/buildfrontend-maven-plugin)
 
 ## Demo
 
@@ -30,11 +35,11 @@ A demo project can be found [here](https://github.com/sdorra/buildfrontend-maven
       <version>2.0.0-SNAPSHOT</version>
       <configuration>
         <node>
-          <version>v8.9.4</version>
+          <version>8.9.4</version>
         </node>
         <pkgManager>
           <type>YARN</type>
-          <version>v1.3.2</version>
+          <version>1.3.2</version>
         </pkgManager>
         <script>run</script>
       </configuration>
