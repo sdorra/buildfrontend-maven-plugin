@@ -21,7 +21,7 @@ install:
 build_script:
   - mvn -B -V clean install -Dmaven.test.skip=true
 test_script:
-  - mvn -B -V -Prun-its clean verify
+  - mvn -B -V -Prun-its verify
 cache:
   - C:\maven\ -> appveyor.yml
   - C:\Users\appveyor\.m2\ -> pom.xml
