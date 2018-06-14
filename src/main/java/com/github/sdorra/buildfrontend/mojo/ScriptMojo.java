@@ -10,7 +10,7 @@ import org.apache.maven.plugins.annotations.Parameter;
 @Mojo(name = "run", defaultPhase = LifecyclePhase.COMPILE)
 public class ScriptMojo extends AbstractPackageManagerMojo {
 
-    @Parameter
+    @Parameter(required = true)
     private String script;
 
     @VisibleForTesting
