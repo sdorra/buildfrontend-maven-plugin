@@ -1,7 +1,8 @@
 # buildfrontend-maven-plugin
 
-[![Quality Gates](https://sonarcloud.io/api/badges/gate?key=com.github.sdorra%3Abuildfrontend-maven-plugin)](https://sonarcloud.io/dashboard?id=com.github.sdorra%3Abuildfrontend-maven-plugin)
-[![Coverage](https://sonarcloud.io/api/badges/measure?key=com.github.sdorra%3Abuildfrontend-maven-plugin&metric=coverage)](https://sonarcloud.io/dashboard?id=com.github.sdorra%3Abuildfrontend-maven-plugin)
+[![Quality Gates](https://sonarcloud.io/api/project_badges/measure?project=com.github.sdorra%3Abuildfrontend-maven-plugin&metric=alert_status
+)](https://sonarcloud.io/dashboard?id=com.github.sdorra%3Abuildfrontend-maven-plugin)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=com.github.sdorra%3Abuildfrontend-maven-plugin&metric=coverage)](https://sonarcloud.io/component_measures?id=com.github.sdorra%3Abuildfrontend-maven-plugin&metric=Coverage)
 [![Maven Central](https://img.shields.io/maven-central/v/com.github.sdorra/buildfrontend-maven-plugin.svg)](http://search.maven.org/#search%7Cga%7C1%7Ca%3A%22buildfrontend-maven-plugin%22)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE.md)
 
@@ -21,7 +22,7 @@ Appveyor (Windows): [![Build status](https://ci.appveyor.com/api/projects/status
 
 ## Demo
 
-A demo project can be found [here](https://github.com/sdorra/buildfrontend-maven-plugin/tree/master/src/it).
+Demo projects can be found [here](https://github.com/sdorra/buildfrontend-maven-plugin/tree/master/src/it).
 
 ## Usage
 
