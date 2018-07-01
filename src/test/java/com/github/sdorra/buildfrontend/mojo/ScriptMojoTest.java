@@ -21,7 +21,7 @@ public class ScriptMojoTest extends AbstractPackageManagerMojoTestBase {
     public void setUp() throws IOException {
         mojo = new ScriptMojo();
         mojo.setScript("awesome");
-        preparePackaManagerMojo(mojo);
+        preparePackageManagerMojo(mojo);
     }
 
     @Test

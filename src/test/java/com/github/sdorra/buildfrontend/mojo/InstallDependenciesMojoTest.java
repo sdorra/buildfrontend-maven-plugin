@@ -19,7 +19,7 @@ public class InstallDependenciesMojoTest extends AbstractPackageManagerMojoTestB
     @Before
     public void setUp() throws IOException {
         mojo = new InstallDependenciesMojo();
-        preparePackaManagerMojo(mojo);
+        preparePackageManagerMojo(mojo);
     }
 
     @Test

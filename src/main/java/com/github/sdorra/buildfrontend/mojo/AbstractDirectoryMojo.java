@@ -34,6 +34,11 @@ public abstract class AbstractDirectoryMojo extends AbstractMojo {
         this.workingDirectory = workingDirectory;
     }
 
+    @VisibleForTesting
+    String getWorkingDirectory() {
+        return workingDirectory;
+    }
+
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
         directories.setBuildDirectory(buildDirectory);

@@ -1,31 +1,37 @@
 package com.github.sdorra.buildfrontend.mojo;
 
 import com.github.sdorra.buildfrontend.*;
+import org.junit.Rule;
+import org.junit.rules.TemporaryFolder;
 import org.mockito.Mock;
 
+import java.io.File;
 import java.io.IOException;
 
 import static org.mockito.Mockito.when;
 
 public abstract class AbstractPackageManagerMojoTestBase {
 
+    @Rule
+    public TemporaryFolder temporaryFolder = new TemporaryFolder();
+
     @Mock
-    protected NodeFactory nodeFactory;
+    NodeFactory nodeFactory;
 
     @Mock
     private Node node;
 
-    protected NodeConfiguration nodeConfiguration = new NodeConfiguration();
+    NodeConfiguration nodeConfiguration = new NodeConfiguration();
 
     @Mock
     private PackageManagerFactory packageManagerFactory;
 
     @Mock
-    protected PackageManager packageManager;
+    PackageManager packageManager;
 
     private PackageManagerConfiguration packageManagerConfiguration = new PackageManagerConfiguration();
 
-    protected void preparePackaManagerMojo(AbstractPackageManagerMojo pkgMojo) throws IOException {
+    void preparePackageManagerMojo(AbstractPackageManagerMojo pkgMojo) throws IOException {
         prepareNodeMojo(pkgMojo);
 
         when(packageManagerFactory.create(packageManagerConfiguration, node)).thenReturn(packageManager);
@@ -41,10 +47,24 @@ public abstract class AbstractPackageManagerMojoTestBase {
         nodeMojo.setNodeConfiguration(nodeConfiguration);
     }
 
-    private void prepareDirectoryMojo(AbstractDirectoryMojo directoryMojo) {
+    void prepareDirectoryMojo(AbstractDirectoryMojo directoryMojo) throws IOException {
         directoryMojo.setDirectories(new Directories());
-        directoryMojo.setBuildDirectory("build");
-        directoryMojo.setWorkingDirectory("work");
+
+        File work = temporaryFolder.newFolder("work");
+        File packageJson = new File(work, AbstractNodeMojo.PACKAGE_JSON);
+        if (!packageJson.createNewFile()) {
+            throw new IOException("could not create " + AbstractNodeMojo.PACKAGE_JSON);
+        }
+        directoryMojo.setWorkingDirectory(work.getPath());
+
+        File build = temporaryFolder.newFolder("build");
+        directoryMojo.setBuildDirectory(build.getPath());
+    }
+
+    void deletePackageJson(AbstractDirectoryMojo mojo) throws IOException {
+        if (!new File(mojo.getWorkingDirectory(), AbstractNodeMojo.PACKAGE_JSON).delete()) {
+            throw new IOException("failed to delete " + AbstractNodeMojo.PACKAGE_JSON);
+        }
     }
 
 }
