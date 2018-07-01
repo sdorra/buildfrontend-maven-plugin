@@ -90,7 +90,7 @@ fabric.properties
 
 # *.iml
 # modules.xml
-# .idea/misc.xml 
+# .idea/misc.xml
 # *.ipr
 
 
@@ -133,3 +133,4 @@ hs_err_pid*
 # custom
 .idea
 *.iml
+nb-configuration.xml
