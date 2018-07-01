@@ -16,7 +16,7 @@
             <plugin>
                 <groupId>com.github.sdorra</groupId>
                 <artifactId>buildfrontend-maven-plugin</artifactId>
-                <version>2.0.0-SNAPSHOT</version>
+                <version>@project.version@</version>
                 <configuration>
                     <node>
                         <version>8.9.4</version>
