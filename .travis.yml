@@ -11,6 +11,6 @@ matrix:
       script:
         - mvn -Prun-its clean org.jacoco:jacoco-maven-plugin:prepare-agent verify sonar:sonar
     - os: osx
-      osx_image: xcode9.4
+      osx_image: xcode9.3
       script:
         - mvn -Prun-its clean verify
