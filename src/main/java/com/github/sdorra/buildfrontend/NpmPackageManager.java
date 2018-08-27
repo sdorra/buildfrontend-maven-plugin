@@ -2,7 +2,7 @@ package com.github.sdorra.buildfrontend;
 
 import com.google.common.collect.Lists;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class NpmPackageManager implements PackageManager {
@@ -37,9 +37,7 @@ public class NpmPackageManager implements PackageManager {
 
     private void npm(String... args) {
         List<String> lists = Lists.newArrayList("--color=false", "--parseable");
-        for ( String arg : args ) {
-            lists.add(arg);
-        }
+        Collections.addAll(lists, args);
         node.execute(executable, lists.toArray(new String[0]));
     }
 }
