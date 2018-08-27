@@ -34,4 +34,15 @@ public class NpmPackageManagerTest {
         verify(node).execute("npm", "--color=false", "--parseable", "run", "hello");
     }
 
+    @Test
+    public void testLink() {
+        packageManager.link();
+        verify(node).execute("npm", "--color=false", "--parseable", "link");
+    }
+
+    @Test
+    public void testLinkWithPackage() {
+        packageManager.link("react");
+        verify(node).execute("npm", "--color=false", "--parseable", "link", "react");
+    }
 }

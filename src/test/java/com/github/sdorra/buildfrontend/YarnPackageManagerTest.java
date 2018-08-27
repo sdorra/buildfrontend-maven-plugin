@@ -33,4 +33,17 @@ public class YarnPackageManagerTest {
         verify(node).execute("yarn", "run", "hello");
     }
 
+    @Test
+    public void testLink() {
+        packageManager.link();
+        verify(node).execute("yarn", "link");
+    }
+
+    @Test
+    public void testLinkWithPackage() {
+        packageManager.link("react");
+        verify(node).execute("yarn", "link", "react");
+    }
+
+
 }

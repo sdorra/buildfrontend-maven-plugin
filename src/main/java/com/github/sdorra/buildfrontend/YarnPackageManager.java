@@ -19,4 +19,14 @@ public class YarnPackageManager implements PackageManager {
     public void run(String script) {
         node.execute(executable, "run", script);
     }
+
+    @Override
+    public void link() {
+        node.execute(executable, "link");
+    }
+
+    @Override
+    public void link(String pkg) {
+        node.execute(executable, "link", pkg);
+    }
 }

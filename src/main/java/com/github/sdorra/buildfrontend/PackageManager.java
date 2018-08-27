@@ -16,4 +16,14 @@ public interface PackageManager {
      * @param script name of the script
      */
     void run(String script);
+
+    /**
+     * Symlink a package folder during development.
+     */
+    void link();
+
+    /**
+     * Link another package to the current package.
+     */
+    void link(String pkg);
 }
