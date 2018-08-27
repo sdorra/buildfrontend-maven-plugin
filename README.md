@@ -33,14 +33,14 @@ Demo projects can be found [here](https://github.com/sdorra/buildfrontend-maven-
     <plugin>
       <groupId>com.github.sdorra</groupId>
       <artifactId>buildfrontend-maven-plugin</artifactId>
-      <version>2.0.0</version>
+      <version>2.1.0</version>
       <configuration>
         <node>
-          <version>8.9.4</version>
+          <version>8.11.4</version>
         </node>
         <pkgManager>
           <type>YARN</type>
-          <version>1.3.2</version>
+          <version>1.9.4</version>
         </pkgManager>
         <script>run</script>
       </configuration>
