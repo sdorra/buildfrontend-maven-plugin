@@ -18,6 +18,7 @@ import org.zeroturnaround.exec.ProcessResult;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -88,7 +89,10 @@ public class NodeExecutionBuilderTest {
         verify(executor).environment(envCaptor.capture());
 
         Map<String, String> env = envCaptor.getValue();
-        assertEquals(executable.getParent() + ":b:a:d:e", env.get("PATH"));
+        assertEquals(
+            MessageFormat.format(executable.getParent() + "{0}b{0}a{0}d{0}e", File.pathSeparator),
+            env.get("PATH")
+        );
     }
 
     @Test
