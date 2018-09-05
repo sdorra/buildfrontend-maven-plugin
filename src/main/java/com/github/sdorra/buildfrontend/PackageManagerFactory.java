@@ -34,16 +34,16 @@ public class PackageManagerFactory {
     }
 
     private PackageManager createNpmPackageManager(PackageManagerConfiguration configuration, Node node) throws IOException {
-        String executable = installPackageManager(configuration);
+        File executable = installPackageManager(configuration);
         return new NpmPackageManager(node, executable);
     }
 
     private PackageManager createYarnPackageManager(PackageManagerConfiguration configuration, Node node) throws IOException {
-        String executable = installPackageManager(configuration);
+        File executable = installPackageManager(configuration);
         return new YarnPackageManager(node, executable);
     }
 
-    private String installPackageManager(PackageManagerConfiguration configuration) throws IOException {
+    private File installPackageManager(PackageManagerConfiguration configuration) throws IOException {
         PackageManagerType type = configuration.getType();
         String version = configuration.getVersion();
 
@@ -57,7 +57,7 @@ public class PackageManagerFactory {
             throw new IOException("could not find package manager executable");
         }
 
-        return executable.getPath();
+        return executable;
     }
 
     private Artifact createArtifact(PackageManagerType type, String version) {

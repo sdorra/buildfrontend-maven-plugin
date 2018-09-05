@@ -2,15 +2,16 @@ package com.github.sdorra.buildfrontend;
 
 import com.google.common.collect.Lists;
 
+import java.io.File;
 import java.util.Collections;
 import java.util.List;
 
 public class NpmPackageManager implements PackageManager {
 
     private final Node node;
-    private final String executable;
+    private final File executable;
 
-    NpmPackageManager(Node node, String executable) {
+    NpmPackageManager(Node node, File executable) {
         this.node = node;
         this.executable = executable;
     }
@@ -38,6 +39,8 @@ public class NpmPackageManager implements PackageManager {
     private void npm(String... args) {
         List<String> lists = Lists.newArrayList("--color=false", "--parseable");
         Collections.addAll(lists, args);
-        node.execute(executable, lists.toArray(new String[0]));
+        node.builder()
+                .prependBinaryToPath(executable.getParent())
+                .execute(executable.getPath(), lists.toArray(new String[0]));
     }
 }
