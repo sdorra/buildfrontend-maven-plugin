@@ -10,6 +10,9 @@ import org.apache.maven.plugins.annotations.Parameter;
 @Mojo(name = "run", defaultPhase = LifecyclePhase.COMPILE)
 public class ScriptMojo extends AbstractPackageManagerMojo {
 
+    @VisibleForTesting
+    static final String THREAD_NAME = "NodeScript";
+
     @Parameter(required = true)
     private String script;
 
@@ -18,8 +21,30 @@ public class ScriptMojo extends AbstractPackageManagerMojo {
         this.script = script;
     }
 
+    @Parameter
+    private boolean background = false;
+
+    @VisibleForTesting
+    void setBackground(boolean background) {
+        this.background = background;
+    }
+
     @Override
-    protected void execute(Node node, PackageManager packageManager) {
-        packageManager.run(script);
+    protected void execute(Node node, final PackageManager packageManager) {
+        if (background) {
+            runInBackground(packageManager);
+        } else {
+            packageManager.run(script);
+        }
+    }
+
+    private void runInBackground(final PackageManager packageManager) {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                packageManager.run(script);
+            }
+        }, THREAD_NAME);
+        thread.start();
     }
 }
