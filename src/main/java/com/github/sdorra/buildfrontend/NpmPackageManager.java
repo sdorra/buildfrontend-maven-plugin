@@ -6,7 +6,7 @@ import java.io.File;
 import java.util.Collections;
 import java.util.List;
 
-public class NpmPackageManager implements PackageManager {
+public class NpmPackageManager extends AbstractPackageManager implements PackageManager {
 
     private final Node node;
     private final File executable;
@@ -34,6 +34,11 @@ public class NpmPackageManager implements PackageManager {
     @Override
     public void link(String pkg) {
         npm("link", pkg);
+    }
+
+    @Override
+    public void publish(String version) {
+        publish(node, version, oldVersion -> npm("publish"));
     }
 
     private void npm(String... args) {

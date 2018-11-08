@@ -2,7 +2,7 @@ package com.github.sdorra.buildfrontend;
 
 import java.io.File;
 
-public class YarnPackageManager implements PackageManager {
+public class YarnPackageManager extends AbstractPackageManager implements PackageManager {
 
     private final Node node;
     private final File executable;
@@ -32,7 +32,12 @@ public class YarnPackageManager implements PackageManager {
         yarn("link", pkg);
     }
 
-    private void yarn(String ...args) {
+    @Override
+    public void publish(String version) {
+        publish(node, version, oldVersion -> yarn("publish", "--new-version", version));
+    }
+
+    private void yarn(String... args) {
         node.builder()
                 .prependBinaryToPath(executable.getParent())
                 .execute(executable.getPath(), args);

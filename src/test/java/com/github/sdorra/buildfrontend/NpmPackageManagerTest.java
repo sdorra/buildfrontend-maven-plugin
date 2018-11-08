@@ -7,6 +7,7 @@ import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.io.File;
@@ -15,6 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -30,6 +32,9 @@ public class NpmPackageManagerTest {
     @Mock
     private NodeExecutionBuilder builder;
 
+    @Mock
+    private PackageJsonReader packageJsonReader;
+
     private NpmPackageManager packageManager;
 
     private File executable;
@@ -41,6 +46,9 @@ public class NpmPackageManagerTest {
 
         when(node.builder()).thenReturn(builder);
         when(builder.prependBinaryToPath(anyString())).thenReturn(builder);
+
+        File workingDirectory = temporaryFolder.newFolder();
+        when(builder.getWorkingDirectory()).thenReturn(workingDirectory);
     }
 
     @Test
@@ -65,6 +73,20 @@ public class NpmPackageManagerTest {
     public void testLinkWithPackage() {
         packageManager.link("react");
         verifyExecution("link", "react");
+    }
+
+    @Test
+    public void testPublish() {
+        PackageJson packageJson = mock(PackageJson.class);
+        when(packageJson.getVersion()).thenReturn("0.0.1");
+        when(packageJson.setVersion("0.0.2")).thenReturn(packageJson);
+        when(packageJson.setVersion("0.0.1")).thenReturn(packageJson);
+
+        when(packageJsonReader.read(Mockito.any(File.class))).thenReturn( packageJson );
+        packageManager.setPackageJsonReader(packageJsonReader);
+
+        packageManager.publish("0.0.2");
+        verifyExecution("publish");
     }
 
     private void verifyExecution(String ...args) {

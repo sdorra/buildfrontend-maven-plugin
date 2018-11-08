@@ -24,6 +24,15 @@ public interface PackageManager {
 
     /**
      * Link another package to the current package.
+     *
+     * @param pkg of package to link
      */
     void link(String pkg);
+
+    /**
+     * Publishes the package to an npm registry.
+     *
+     * @param version version of the package
+     */
+    void publish(String version);
 }

@@ -37,15 +37,19 @@ public class NodeExecutionBuilder {
         this.node = node;
 
         this.systemEnvironment = systemEnvironment;
-        this.environment = new HashMap<String, String>();
+        this.environment = new HashMap<>();
         this.binPath = parseBinPath(systemEnvironment.get(ENV_PATH));
     }
 
     private List<String> parseBinPath(String path) {
         // splitter returns an unmodifiable list, so we have to create a new list in order to modify it
-        return new ArrayList<String>(
-            Splitter.on(File.pathSeparator).omitEmptyStrings().trimResults().splitToList(Strings.nullToEmpty(path))
+        return new ArrayList<>(
+                Splitter.on(File.pathSeparator).omitEmptyStrings().trimResults().splitToList(Strings.nullToEmpty(path))
         );
+    }
+
+    public File getWorkingDirectory() {
+        return workingDirectory;
     }
 
     public NodeExecutionBuilder appendBinaryToPath(String path) {
@@ -80,6 +84,7 @@ public class NodeExecutionBuilder {
         }
     }
 
+    @SuppressWarnings("squid:S106") // avoid system.out, but it is required
     private ProcessExecutor create(Map<String,String> environment, List<String> cmds) {
         return newExecutor(cmds)
                 .directory(workingDirectory)
@@ -94,7 +99,7 @@ public class NodeExecutionBuilder {
     }
 
     private List<String> createCommand(String command, String... args) {
-        List<String> cmd = new ArrayList<String>();
+        List<String> cmd = new ArrayList<>();
         cmd.add(node.getPath());
         cmd.add(command);
         cmd.addAll(Arrays.asList(args));
@@ -102,7 +107,7 @@ public class NodeExecutionBuilder {
     }
 
     private Map<String,String> createEnvironment() {
-        Map<String,String> env = new HashMap<String, String>(systemEnvironment);
+        Map<String,String> env = new HashMap<>(systemEnvironment);
         env.putAll(environment);
         env.put(ENV_PATH, createBinPath());
 
