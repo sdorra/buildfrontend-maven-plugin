@@ -18,11 +18,11 @@
                 <version>@project.version@</version>
                 <configuration>
                     <node>
-                        <version>8.9.4</version>
+                        <version>10.15.2</version>
                     </node>
                     <pkgManager>
                         <type>YARN</type>
-                        <version>1.3.2</version>
+                        <version>1.13.0</version>
                     </pkgManager>
                     <script>run</script>
                 </configuration>
