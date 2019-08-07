@@ -1,7 +1,6 @@
 package com.github.sdorra.buildfrontend;
 
 import org.apache.maven.artifact.Artifact;
-import org.codehaus.plexus.archiver.Archiver;
 import org.codehaus.plexus.archiver.UnArchiver;
 import org.codehaus.plexus.archiver.manager.ArchiverManager;
 import org.codehaus.plexus.archiver.manager.NoSuchArchiverException;
@@ -18,7 +17,6 @@ import java.io.File;
 import java.io.IOException;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -42,34 +40,21 @@ public class ArtifactExtractorTest {
     @Mock
     private Artifact artifact;
 
-    private File buildDirectory;
-    private File artifactFile;
 
     @Before
     public void setUp() throws IOException {
-        buildDirectory = temporaryFolder.newFolder();
-        artifactFile = temporaryFolder.newFile();
-
-        when(artifact.getFile()).thenReturn(artifactFile);
-        when(directories.getBuildDirectory()).thenReturn(buildDirectory.getPath());
         when(artifact.getArtifactId()).thenReturn("special");
     }
 
     @Test
-    public void testExtractIfNeeded() throws IOException, NoSuchArchiverException {
-        when(archiverManager.getUnArchiver(artifactFile)).thenReturn(unArchiver);
-
+    public void testExtractIfNeeded() throws IOException {
         File directory = artifactExtractor.extractIfNeeded(artifact);
-        assertEquals(buildDirectory, directory.getParentFile());
         assertEquals("special", directory.getName());
-
-        verify(unArchiver).extract();
     }
 
     @Test
     public void testExtractIfNeededAlreadyExtracted() throws IOException {
-        File directory = new File(buildDirectory, "special");
-        assertTrue(directory.mkdir());
+        File directory = new File("special");
 
         File returned = artifactExtractor.extractIfNeeded(artifact);
         assertEquals(directory, returned);
