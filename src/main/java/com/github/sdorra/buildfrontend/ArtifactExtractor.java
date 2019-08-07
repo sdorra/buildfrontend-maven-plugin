@@ -27,7 +27,7 @@ public class ArtifactExtractor {
     }
 
     public File extractIfNeeded(Artifact artifact) throws IOException {
-        File directory = new File(directories.getBuildDirectory(), artifact.getArtifactId());
+        File directory = new File(artifact.getArtifactId());
         if (directory.exists()){
             LOG.info("skip extraction of {}", artifact);
         } else {
