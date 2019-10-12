@@ -27,6 +27,11 @@ public class NpmPackageManager extends AbstractPackageManager implements Package
     }
 
     @Override
+    public ScriptRunner script(String script) {
+        return new NpmScriptRunner(script);
+    }
+
+    @Override
     public void link() {
         npm( "link");
     }
@@ -41,11 +46,38 @@ public class NpmPackageManager extends AbstractPackageManager implements Package
         publish(node, version, oldVersion -> npm("publish"));
     }
 
-    private void npm(String... args) {
+    private String[] args(String... args) {
         List<String> lists = Lists.newArrayList("--color=false", "--parseable");
         Collections.addAll(lists, args);
+        return lists.toArray(new String[0]);
+    }
+
+    private void npm(String... args) {
         node.builder()
                 .prependBinaryToPath(executable.getParent())
-                .execute(executable.getPath(), lists.toArray(new String[0]));
+                .execute(executable.getPath(), args(args));
+    }
+
+    private class NpmScriptRunner implements ScriptRunner {
+
+        private final String script;
+        private NodeExecutionBuilder nodeExecutionBuilder;
+
+        private NpmScriptRunner(String script) {
+            this.script = script;
+            nodeExecutionBuilder = node.builder()
+                    .prependBinaryToPath(executable.getParent());
+        }
+
+        @Override
+        public ScriptRunner ignoreFailure() {
+            nodeExecutionBuilder.ignoreFailure();
+            return this;
+        }
+
+        @Override
+        public void execute() {
+            nodeExecutionBuilder.execute(executable.getPath(), args("run", script));
+        }
     }
 }

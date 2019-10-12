@@ -23,6 +23,11 @@ public class YarnPackageManager extends AbstractPackageManager implements Packag
     }
 
     @Override
+    public ScriptRunner script(String script) {
+        return new YarnScriptRunner(script);
+    }
+
+    @Override
     public void link() {
         yarn("link");
     }
@@ -41,5 +46,28 @@ public class YarnPackageManager extends AbstractPackageManager implements Packag
         node.builder()
                 .prependBinaryToPath(executable.getParent())
                 .execute(executable.getPath(), args);
+    }
+
+    private class YarnScriptRunner implements ScriptRunner {
+
+        private final String script;
+        private NodeExecutionBuilder nodeExecutionBuilder;
+
+        private YarnScriptRunner(String script) {
+            this.script = script;
+            nodeExecutionBuilder = node.builder()
+                    .prependBinaryToPath(executable.getParent());
+        }
+
+        @Override
+        public ScriptRunner ignoreFailure() {
+            nodeExecutionBuilder.ignoreFailure();
+            return this;
+        }
+
+        @Override
+        public void execute() {
+            nodeExecutionBuilder.execute(executable.getPath(), "run", script);
+        }
     }
 }

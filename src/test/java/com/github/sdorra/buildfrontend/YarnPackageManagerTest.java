@@ -61,6 +61,15 @@ public class YarnPackageManagerTest {
     }
 
     @Test
+    public void testScript() {
+        packageManager.script("hello").ignoreFailure().execute();
+
+        verify(builder).ignoreFailure();
+
+        verifyExecution("run", "hello");
+    }
+
+    @Test
     public void testLink() {
         packageManager.link();
         verifyExecution("link");
