@@ -2,6 +2,7 @@ package com.github.sdorra.buildfrontend.mojo;
 
 import com.github.sdorra.buildfrontend.Node;
 import com.github.sdorra.buildfrontend.PackageManager;
+import com.github.sdorra.buildfrontend.ScriptRunner;
 import com.google.common.annotations.VisibleForTesting;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
@@ -29,22 +30,33 @@ public class ScriptMojo extends AbstractPackageManagerMojo {
         this.background = background;
     }
 
+    @Parameter
+    private boolean ignoreFailure = false;
+
+    @VisibleForTesting
+    void setIgnoreFailure(boolean ignoreFailure) {
+        this.ignoreFailure = ignoreFailure;
+    }
+
     @Override
     protected void execute(Node node, final PackageManager packageManager) {
         if (background) {
             runInBackground(packageManager);
         } else {
-            packageManager.run(script);
+            run(packageManager);
         }
     }
 
+    private void run(PackageManager packageManager) {
+        ScriptRunner runner = packageManager.script(this.script);
+        if (ignoreFailure) {
+            runner.ignoreFailure();
+        }
+        runner.execute();
+    }
+
     private void runInBackground(final PackageManager packageManager) {
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                packageManager.run(script);
-            }
-        }, THREAD_NAME);
+        Thread thread = new Thread(() -> run(packageManager), THREAD_NAME);
         thread.start();
     }
 }

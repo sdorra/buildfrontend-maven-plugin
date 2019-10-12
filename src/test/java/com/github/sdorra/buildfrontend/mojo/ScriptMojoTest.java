@@ -1,5 +1,6 @@
 package com.github.sdorra.buildfrontend.mojo;
 
+import com.github.sdorra.buildfrontend.ScriptRunner;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.junit.Before;
@@ -28,9 +29,24 @@ public class ScriptMojoTest extends AbstractPackageManagerMojoTestBase {
 
     @Test
     public void testExecute() throws MojoFailureException, MojoExecutionException {
+        ScriptRunner runner = mock(ScriptRunner.class);
+        when(packageManager.script("awesome")).thenReturn(runner);
+
         mojo.execute();
 
-        verify(packageManager).run("awesome");
+        verify(runner).execute();
+    }
+
+    @Test
+    public void testExecuteAndIgnoreFailure() throws MojoFailureException, MojoExecutionException {
+        ScriptRunner runner = mock(ScriptRunner.class);
+        when(packageManager.script("awesome")).thenReturn(runner);
+
+        mojo.setIgnoreFailure(true);
+        mojo.execute();
+
+        verify(runner).ignoreFailure();
+        verify(runner).execute();
     }
 
     @Test
@@ -41,9 +57,18 @@ public class ScriptMojoTest extends AbstractPackageManagerMojoTestBase {
     }
 
     @Test
+    public void testIgnoreFailure() {
+        mojo.setIgnoreFailure(true);
+    }
+
+    @Test
     public void testExecuteInBackground() throws MojoFailureException, MojoExecutionException, InterruptedException {
         final ThreadNameCapturingAnswer answer = new ThreadNameCapturingAnswer();
-        doAnswer(answer).when(packageManager).run("awesome");
+
+        ScriptRunner runner = mock(ScriptRunner.class);
+        when(packageManager.script("awesome")).thenReturn(runner);
+
+        doAnswer(answer).when(runner).execute();
 
         mojo.setBackground(true);
         mojo.execute();
@@ -53,7 +78,7 @@ public class ScriptMojoTest extends AbstractPackageManagerMojoTestBase {
         }
 
         assertEquals(ScriptMojo.THREAD_NAME, answer.threadName);
-        verify(packageManager).run("awesome");
+        verify(runner).execute();
     }
 
     private static class ThreadNameCapturingAnswer implements Answer<Void> {

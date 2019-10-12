@@ -48,23 +48,4 @@ public interface PackageManager {
      * @param version version of the package
      */
     void publish(String version);
-
-    /**
-     * Runner interface for scripts defined in package.json.
-     */
-    interface ScriptRunner {
-
-        /**
-         * Do not throw an exception, it the process ends with a status
-         * code which not zero.
-         *
-         * @return {@code this}.
-         */
-        ScriptRunner ignoreFailure();
-
-        /**
-         * Executes the defined script.
-         */
-        void execute();
-    }
 }
