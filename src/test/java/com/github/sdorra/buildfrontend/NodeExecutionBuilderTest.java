@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -116,13 +117,21 @@ public class NodeExecutionBuilderTest {
 
     @Test
     public void testNonZeroStatusCode() {
-        expectedException.expect(RuntimeException.class);
-        expectedException.expectMessage("exit value 42");
+        expectedException.expect(ProcessFailedException.class);
+        expectedException.expectMessage(containsString("exit code 42"));
 
         when(processResult.getExitValue()).thenReturn(42);
 
         CapturingNodeExecutionBuilder builder = new CapturingNodeExecutionBuilder();
         builder.execute("bin");
+    }
+
+    @Test
+    public void testIgnoreFailure() {
+        when(processResult.getExitValue()).thenReturn(42);
+
+        CapturingNodeExecutionBuilder builder = new CapturingNodeExecutionBuilder();
+        builder.ignoreFailure().execute("bin");
     }
 
 

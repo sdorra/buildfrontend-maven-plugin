@@ -10,8 +10,11 @@ import org.zeroturnaround.exec.ProcessExecutor;
 import org.zeroturnaround.exec.ProcessResult;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class NodeExecutionBuilder {
 
@@ -25,6 +28,7 @@ public class NodeExecutionBuilder {
     private final Map<String,String> systemEnvironment;
     private final Map<String,String> environment;
     private final List<String> binPath;
+    private boolean ignoreFailure = false;
 
 
     NodeExecutionBuilder(File workingDirectory, File node) {
@@ -67,6 +71,11 @@ public class NodeExecutionBuilder {
         return this;
     }
 
+    public NodeExecutionBuilder ignoreFailure() {
+        this.ignoreFailure = true;
+        return this;
+    }
+
     public void execute(String command, String... args) {
         List<String> cmds = createCommand(command, args);
         LOG.info("execute {}", cmds);
@@ -75,12 +84,20 @@ public class NodeExecutionBuilder {
         try {
             ProcessExecutor executor = create(env, cmds);
             ProcessResult result = executor.execute();
-            int exitValue = result.getExitValue();
-            if (exitValue != 0) {
-                throw new IOException("process ends with exit value " + exitValue);
-            }
+            processExitValue(cmds, result.getExitValue());
         } catch (Exception ex) {
             throw Throwables.propagate(ex);
+        }
+    }
+
+    private void processExitValue(List<String> cmds, int exitValue) {
+        if (exitValue != 0) {
+            ProcessFailure failure = new ProcessFailure(cmds, exitValue);
+            if (ignoreFailure) {
+                failure.log();
+            } else {
+                failure.raise();
+            }
         }
     }
 
