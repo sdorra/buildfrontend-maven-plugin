@@ -23,6 +23,14 @@ public class ScriptMojo extends AbstractPackageManagerMojo {
     }
 
     @Parameter
+    private String[] args;
+
+    @VisibleForTesting
+    void setArgs(String[] args) {
+        this.args = args;
+    }
+
+    @Parameter
     private boolean background = false;
 
     @VisibleForTesting
@@ -52,7 +60,7 @@ public class ScriptMojo extends AbstractPackageManagerMojo {
         if (ignoreFailure) {
             runner.ignoreFailure();
         }
-        runner.execute();
+        runner.execute(args);
     }
 
     private void runInBackground(final PackageManager packageManager) {

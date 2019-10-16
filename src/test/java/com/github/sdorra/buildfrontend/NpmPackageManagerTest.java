@@ -71,6 +71,12 @@ public class NpmPackageManagerTest {
     }
 
     @Test
+    public void testScriptWithArgs() {
+        packageManager.script("hello").execute("c", "d", "e");
+        verifyExecution("run", "hello", "c", "d", "e");
+    }
+
+    @Test
     public void testLink() {
         packageManager.link();
         verifyExecution("link");

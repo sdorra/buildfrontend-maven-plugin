@@ -34,7 +34,17 @@ public class ScriptMojoTest extends AbstractPackageManagerMojoTestBase {
 
         mojo.execute();
 
-        verify(runner).execute();
+        verify(runner).execute(null);
+    }
+
+    @Test
+    public void testExecuteWithArgs() throws MojoFailureException, MojoExecutionException {
+        ScriptRunner runner = mock(ScriptRunner.class);
+        when(packageManager.script("awesome")).thenReturn(runner);
+        mojo.setArgs(new String[]{"my", "custom", "args"});
+        mojo.execute();
+
+        verify(runner).execute("my", "custom", "args");
     }
 
     @Test
@@ -46,7 +56,7 @@ public class ScriptMojoTest extends AbstractPackageManagerMojoTestBase {
         mojo.execute();
 
         verify(runner).ignoreFailure();
-        verify(runner).execute();
+        verify(runner).execute(null);
     }
 
     @Test
@@ -68,7 +78,7 @@ public class ScriptMojoTest extends AbstractPackageManagerMojoTestBase {
         ScriptRunner runner = mock(ScriptRunner.class);
         when(packageManager.script("awesome")).thenReturn(runner);
 
-        doAnswer(answer).when(runner).execute();
+        doAnswer(answer).when(runner).execute(null);
 
         mojo.setBackground(true);
         mojo.execute();
@@ -78,7 +88,7 @@ public class ScriptMojoTest extends AbstractPackageManagerMojoTestBase {
         }
 
         assertEquals(ScriptMojo.THREAD_NAME, answer.threadName);
-        verify(runner).execute();
+        verify(runner).execute(null);
     }
 
     private static class ThreadNameCapturingAnswer implements Answer<Void> {

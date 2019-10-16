@@ -70,6 +70,12 @@ public class YarnPackageManagerTest {
     }
 
     @Test
+    public void testScriptWithArgs() {
+        packageManager.script("hello").execute("a", "b");
+        verifyExecution("run", "hello", "a", "b");
+    }
+
+    @Test
     public void testLink() {
         packageManager.link();
         verifyExecution("link");

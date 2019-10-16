@@ -3,6 +3,8 @@ package com.github.sdorra.buildfrontend;
 import com.google.common.collect.Lists;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -76,8 +78,14 @@ public class NpmPackageManager extends AbstractPackageManager implements Package
         }
 
         @Override
-        public void execute() {
-            nodeExecutionBuilder.execute(executable.getPath(), args("run", script));
+        public void execute(String... args) {
+            List<String> cmd = new ArrayList<>();
+            cmd.add("run");
+            cmd.add(script);
+            if (args != null) {
+                cmd.addAll(Arrays.asList(args));
+            }
+            nodeExecutionBuilder.execute(executable.getPath(), args(cmd.toArray(new String[0])));
         }
     }
 }

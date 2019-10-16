@@ -14,7 +14,7 @@ public interface ScriptRunner {
   ScriptRunner ignoreFailure();
 
   /**
-   * Executes the defined script.
+   * Executes the defined script, with the given arguments.
    */
-  void execute();
+  void execute(String... args);
 }

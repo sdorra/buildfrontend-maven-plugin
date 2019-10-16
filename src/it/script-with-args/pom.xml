@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.github.sdorra</groupId>
+    <artifactId>buildfrontend-it-script-with-args</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <name>buildfrontend-it</name>
+    <packaging>pom</packaging>
+
+    <build>
+        <plugins>
+
+            <plugin>
+                <groupId>com.github.sdorra</groupId>
+                <artifactId>buildfrontend-maven-plugin</artifactId>
+                <version>@project.version@</version>
+                <configuration>
+                    <node>
+                        <version>10.15.2</version>
+                    </node>
+                    <pkgManager>
+                        <type>YARN</type>
+                        <version>1.13.0</version>
+                    </pkgManager>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>install</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>install</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>run</id>
+                        <phase>process-resources</phase>
+                        <configuration>
+                            <script>run</script>
+                            <args>
+                                <arg>${project.version}</arg>
+                            </args>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+
+        </plugins>
+    </build>
+
+</project>
