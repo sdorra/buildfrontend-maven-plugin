@@ -12,9 +12,9 @@ import org.zeroturnaround.exec.ProcessResult;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class NodeExecutionBuilder {
 
@@ -25,11 +25,10 @@ public class NodeExecutionBuilder {
     private final File workingDirectory;
     private final File node;
 
-    private final Map<String,String> systemEnvironment;
-    private final Map<String,String> environment;
+    private final Map<String, String> systemEnvironment;
+    private final Map<String, String> environment;
     private final List<String> binPath;
     private boolean ignoreFailure = false;
-
 
     NodeExecutionBuilder(File workingDirectory, File node) {
         this(workingDirectory, node, System.getenv());
@@ -40,8 +39,9 @@ public class NodeExecutionBuilder {
         this.workingDirectory = workingDirectory;
         this.node = node;
 
-        this.systemEnvironment = systemEnvironment;
-        this.environment = new HashMap<>();
+        this.systemEnvironment = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+        this.systemEnvironment.putAll(systemEnvironment);
+        this.environment = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
         this.binPath = parseBinPath(systemEnvironment.get(ENV_PATH));
     }
 
@@ -102,7 +102,7 @@ public class NodeExecutionBuilder {
     }
 
     @SuppressWarnings("squid:S106") // avoid system.out, but it is required
-    private ProcessExecutor create(Map<String,String> environment, List<String> cmds) {
+    private ProcessExecutor create(Map<String, String> environment, List<String> cmds) {
         return newExecutor(cmds)
                 .directory(workingDirectory)
                 .environment(environment)
@@ -123,8 +123,9 @@ public class NodeExecutionBuilder {
         return cmd;
     }
 
-    private Map<String,String> createEnvironment() {
-        Map<String,String> env = new HashMap<>(systemEnvironment);
+    private Map<String, String> createEnvironment() {
+        Map<String, String> env = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+        env.putAll(systemEnvironment);
         env.putAll(environment);
         env.put(ENV_PATH, createBinPath());
 
@@ -137,7 +138,7 @@ public class NodeExecutionBuilder {
     private String envToString(Map<String, String> env) {
         String separator = System.getProperty("line.separator", "\n");
         StringBuilder builder = new StringBuilder("execution environment:");
-        for (Map.Entry<String,String> e : env.entrySet()) {
+        for (Map.Entry<String, String> e : env.entrySet()) {
             builder.append(separator).append(" - ").append(e.getKey()).append(": ").append(e.getValue());
         }
         return builder.toString();
@@ -145,7 +146,7 @@ public class NodeExecutionBuilder {
 
     private String createBinPath() {
         StringBuilder builder = new StringBuilder(node.getParent());
-        for ( String directory : binPath ) {
+        for (String directory : binPath) {
             builder.append(File.pathSeparator).append(directory);
         }
         return builder.toString();
